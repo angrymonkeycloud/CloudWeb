@@ -1,0 +1,17 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "destination": "wwwroot/",
+      "library": "./../Web/_",
+      "provider": "filesystem"
+    },
+    {
+      "provider": "unpkg",
+      "library": "cloudmate@0.10.5",
+      "destination": "test",
+      "files": ["dist/**/*.*"]
+    }
+  ]
+}
