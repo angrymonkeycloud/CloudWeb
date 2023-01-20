@@ -28,6 +28,8 @@ jobs:
       - name: Get package version
         run: |
           version=$(jq -r '.version' package.json)
+        env:
+          version: $version
           
         
       - name: Publish to Azure Blob Storage
@@ -35,5 +37,5 @@ jobs:
         with:
           connection_string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
           container_name: cloudweb
-          source_folder: dist/$version
+          source_folder: dist/${{env.version}}
           fail_if_source_empty: true
