@@ -1,0 +1,33 @@
+{
+    "builds": [
+        {
+            "name": "dev",
+            "css": {
+                "minify": false,
+                "sourceMap": true
+            }
+        },
+        {
+            "name": "dist",
+            "outDir": "dist",
+            "outDirVersioning": true,
+            "outDirName": false,
+            "css": {
+                "minify": true,
+                "sourceMap": false
+            }
+        }
+    ],
+    "files": [
+        {
+            "output": "test/css/cloudvariables.less",
+            "input": "src/cloudvariables.less",
+            "builds": ["dev", "dist"]
+        },
+        {
+            "output": "test/css/cloudweb.css",
+            "input": "src/cloudweb.less",
+            "builds": ["dev", "dist"]
+        }
+    ]
+}
