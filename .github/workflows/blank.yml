@@ -26,14 +26,12 @@ jobs:
         uses: actions/checkout@v2
         
       - name: Get Version
-        run: echo "::set-output name=version::$(jq -r '.version' package.json)"
-        id: get_version
-
+        run: echo "##[set-env name=version]$(jq -r '.version' package.json)"
 
       - name: Publish to Azure Blob Storage
         uses: LanceMcCarthy/Action-AzureBlobUpload@v2
         with:
           connection_string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
           container_name: cloudweb
-          source_folder: dist/${{ steps.get_version.outputs.version }}
+          source_folder: dist/${{ env.version }}
           fail_if_source_empty: true
