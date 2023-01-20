@@ -31,11 +31,9 @@ jobs:
           
         
       - name: Publish to Azure Blob Storage
-        uses: |
-          LanceMcCarthy/Action-AzureBlobUpload@v2
-          version=$(jq -r '.version' package.json)
+        uses: LanceMcCarthy/Action-AzureBlobUpload@v2
         with:
           connection_string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
           container_name: cloudweb
-          source_folder: dist/$version
+          source_folder: dist/$(jq -r '.version' package.json)
           fail_if_source_empty: true
