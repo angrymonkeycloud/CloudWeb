@@ -32,7 +32,7 @@ jobs:
           echo "##[store-env name=version,value=$packageVersion]"
 
       - name: Publish to Azure Blob Storage
-        if: ${{ success() }}
+        if: ${{ failure() }}
         uses: LanceMcCarthy/Action-AzureBlobUpload@v2
         with:
           connection_string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
