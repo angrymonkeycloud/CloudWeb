@@ -28,7 +28,12 @@ jobs:
       - name: Get Version
         run: echo "##[store-env name=version,value=$(jq -r '.version' package.json)]"
 
+      - name: Check Folder
+        run: |
+          result=$(az storage blob exists --container-name cloudweb --name ${{ env.version }} --connection-string ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}        
+     
       - name: Publish to Azure Blob Storage
+        if: ${{ contains(result,'false') }}
         uses: LanceMcCarthy/Action-AzureBlobUpload@v2
         with:
           connection_string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
