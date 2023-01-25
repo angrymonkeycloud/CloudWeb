@@ -40,3 +40,4 @@ jobs:
           container_name: cloudweb
           source_folder: dist/${{ env.version }}
           fail_if_source_empty: true
+          file_path: path/to/folder/**
