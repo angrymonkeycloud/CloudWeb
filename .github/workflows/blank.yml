@@ -35,6 +35,7 @@ jobs:
           echo $result
           
       - name: Publish to Azure Blob Storage
+        if: ${{ contains(${{ env.IsExsits }},'false') }}
         uses: LanceMcCarthy/Action-AzureBlobUpload@v2
         with:
           connection_string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
