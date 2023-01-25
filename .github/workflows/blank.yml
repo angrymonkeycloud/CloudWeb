@@ -30,7 +30,7 @@ jobs:
 
       - name: Check Folder
         run: |
-          az storage blob exists --container-name cloudweb --name ${{ env.version }}/ --account-name ${{secrets.ACCOUNT_NAME}} --account-key ${{secrets.ACCOUNT_KEY}}  
+          az storage blob exists --container-name cloudweb --name 1.0.1/ --account-name ${{secrets.ACCOUNT_NAME}} --account-key ${{secrets.ACCOUNT_KEY}}  
           
       - name: Publish to Azure Blob Storage
         if: ${{ success() }}
