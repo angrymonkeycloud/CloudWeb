@@ -20,14 +20,28 @@
     ],
     "files": [
         {
-            "output": "test/css/cloudvariables.less",
-            "input": "src/cloudvariables.less",
-            "builds": ["dev", "dist"]
+            "output": "cloud-variables.less",
+            "input": "src/cloud-variables.less",
+            "builds": ["dist"]
         },
         {
-            "output": "test/css/cloudweb.css",
-            "input": "src/cloudweb.less",
-            "builds": ["dev", "dist"]
+            "output": "cloud-base.less",
+            "input": "src/cloud-base.less",
+            "builds": ["dist"]
+        },
+        {
+            "output": "cloud-header.less",
+            "input": "src/cloud-header.less",
+            "builds": ["dist"]
+        },
+        {
+            "output": "cloud-sections.less",
+            "input": "src/cloud-sections.less",
+            "builds": ["dist"]
+        },
+        {
+            "output": "test/css/site.css",
+            "input": "test/css/site.less"
         }
     ]
 }
