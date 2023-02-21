@@ -1,7 +1,7 @@
 # Cloud Web
 
 ## Url
- 
+  
 Base Url: <https://cdn.amcapi.com/cloudweb/>
 
 Complete Url: {BaseUrl}/{Version}/Filename.
