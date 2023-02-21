@@ -30,8 +30,10 @@ jobs:
           packageVersion=$(jq -r '.version' package.json);
           az storage blob list --container-name cloudweb --prefix $packageVersion --account-name ${{secrets.ACCOUNT_NAME}} --account-key ${{secrets.ACCOUNT_KEY}} 
           echo "##[store-env name=version,value=$packageVersion]"
-
+          echo ${{secrets.ACCOUNT_NAME}}
+          
       - name: Publish to Azure Blob Storage
+        if: ${{ failure() }}
         uses: LanceMcCarthy/Action-AzureBlobUpload@v2
         with:
           connection_string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
