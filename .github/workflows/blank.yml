@@ -40,14 +40,10 @@ jobs:
           
       - name: Publish to Azure Blob Storage
         if: failure()
-        run: |
-          set -x
-            ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
-          set +x
         uses: LanceMcCarthy/Action-AzureBlobUpload@v2
         with: 
           connection_string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
           container_name: cloudweb
           source_folder: dist/${{ env.package_version }}
-          fail_if_source_empty: true
+
  
