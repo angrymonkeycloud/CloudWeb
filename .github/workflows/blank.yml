@@ -25,12 +25,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         
-      - name: Get Version 
-        run: |
-          packageVersion=$(jq -r '.version' package.json);
-          az storage blob list --container-name cloudweb --prefix $packageVersion --account-name ${{secrets.ACCOUNT_NAME}} --account-key ${{secrets.ACCOUNT_KEY}} 
-          echo "##[store-env name=version,value=$packageVersion]"
-          
       - name: Publish to Azure Blob Storage
         run: |
           packageVersion=$(jq -r '.version' package.json);
