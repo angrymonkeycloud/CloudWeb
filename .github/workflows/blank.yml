@@ -39,13 +39,9 @@ jobs:
           echo "package_version=$package_version" >> $GITHUB_ENV
           
       - name: Publish to Azure Blob Storage
-        uses: azure/azure-storage-blob-upload@v2.1.0
-        with:
-            connection_string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
-            container_name: cloudweb
-            source: dist/${{ env.version }}
-            args: --no-overwrite
-            if: github.event_name == 'push'
-            delete: false
+        run: |
+          az storage blob upload-batch --destination cloudweb --source dist/${{ env.version }} --pattern "*.*" --no-progress
+        env:
+          AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
 
  
