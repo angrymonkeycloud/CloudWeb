@@ -33,7 +33,9 @@ jobs:
           
       - name: Publish to Azure Blob Storage
         run: |
-          az storage blob upload-batch --destination cloudweb --source dist/1.0.4 --pattern "*.*" --no-progress
+          dirpath="dist/${{ env.version }}"
+          echo "Directory path: $dirpath"
+          az storage blob upload-batch --destination cloudweb --source "$dirpath" --pattern "*.*" --no-progress
         env:
           AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
 
