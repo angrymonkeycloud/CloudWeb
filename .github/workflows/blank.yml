@@ -39,11 +39,11 @@ jobs:
           echo "package_version=$package_version" >> $GITHUB_ENV
           
       - name: Publish to Azure Blob Storage
-        if: failure()
         uses: LanceMcCarthy/Action-AzureBlobUpload@v2
         with: 
           connection_string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
           container_name: cloudweb
           source_folder: dist/${{ env.package_version }}
+          block_overwrite: true
 
  
