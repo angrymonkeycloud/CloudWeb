@@ -35,7 +35,7 @@ jobs:
         if: ${{ failure() }}
         uses: LanceMcCarthy/Action-AzureBlobUpload@v2
         with:
-          connection_string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+          connection_string: ${{ TEST }}
           container_name: cloudweb
           source_folder: dist/${{ env.version }}
           fail_if_source_empty: true
