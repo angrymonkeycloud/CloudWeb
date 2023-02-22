@@ -34,7 +34,7 @@ jobs:
       - name: Publish to Azure Blob Storage
         if: ${{ failure() }}
         uses: LanceMcCarthy/Action-AzureBlobUpload@v2
-        with:
+        with: 
           connection_string: ${{ TEST }}
           container_name: cloudweb
           source_folder: dist/${{ env.version }}
