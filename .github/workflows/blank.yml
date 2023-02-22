@@ -34,7 +34,7 @@ jobs:
       - name: Publish to Azure Blob Storage
         run: |
           packageVersion=$(jq -r '.version' package.json);
-          dirpath="dist/$packageVersion
+          dirpath="dist/$packageVersion"
           echo "Directory path: $dirpath"
           mkdir -p "$dirpath"
           az storage blob upload-batch --destination cloudweb --source "$dirpath" --pattern "*.*" --no-progress
