@@ -25,18 +25,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         
-      - name: Get Version and Check Folder if exsits in blob storage 
+      - name: Get Version and Check Folder if exists in blob storage 
         run: |
           packageVersion=$(jq -r '.version' package.json);
-          az storage blob list --container-name cloudweb --prefix $packageVersion --account-name ${{secrets.ACCOUNT_NAME}} --account-key ${{secrets.ACCOUNT_KEY}} 
-          echo "##[store-env name=version,value=$packageVersion]"
+          blobList=$(az storage blob list --container-name cloudweb --prefix $packageVersion --account-name ${{secrets.ACCOUNT_NAME}} --account-key ${{secrets.ACCOUNT_KEY}})
+          if [[ $blobList == *"\"name\": \"$packageVersion\""* ]]; then
+            echo "Blob with version $packageVersion already exists in container"
+          else
+            echo "Blob with version $packageVersion not found in container"
+          fi
+          echo "##[set-output name=version;]$packageVersion"
           
       - name: Publish to Azure Blob Storage
-        if: ${{ failure() }}
+        if: failure()
         uses: LanceMcCarthy/Action-AzureBlobUpload@v2
         with: 
           connection_string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
           container_name: cloudweb
-          source_folder: dist/${{ env.version }}
+          source_folder: dist/${{ steps.getVersion.outputs.version }}
           fail_if_source_empty: true
  
