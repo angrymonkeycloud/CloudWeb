@@ -6,8 +6,8 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: [ "main" ]
-  pull_request:
+    branches: [ "main" ] 
+  pull_request: 
     branches: [ "main" ]
 
   # Allows you to run this workflow manually from the Actions tab
@@ -25,18 +25,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         
-      - name: Get Version and Check Folder if exsits in blob storage 
+      - name: Publish to Azure Blob Storage
         run: |
           packageVersion=$(jq -r '.version' package.json);
-          az storage blob list --container-name cloudweb --prefix $packageVersion --account-name ${{secrets.ACCOUNT_NAME}} --account-key ${{secrets.ACCOUNT_KEY}} 
-          echo "##[store-env name=version,value=$packageVersion]"
+          dirpath="dist/$packageVersion"
+          echo "Directory path: $dirpath"
+          mkdir -p "$dirpath"
+          az storage blob upload-batch --destination cloudweb --destination-path "$packageVersion/" --source "$dirpath" --pattern "*.*" --no-progress
+        env:
+          AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
 
-      - name: Publish to Azure Blob Storage
-        if: ${{ failure() }}
-        uses: LanceMcCarthy/Action-AzureBlobUpload@v2
-        with:
-          connection_string: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
-          container_name: cloudweb
-          source_folder: dist/${{ env.version }}
-          fail_if_source_empty: true
  
