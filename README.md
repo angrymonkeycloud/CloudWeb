@@ -24,3 +24,14 @@ Import .less URL as follows:
 @import url('...');
 
 ```
+
+## Samples
+
+import the needed file into the site.less
+
+```less
+@import url('https://cdn.amcapi.com/cloudweb/1.0.2/cloud-base.less');
+@import url('https://cdn.amcapi.com/cloudweb/1.0.2/cloud-variables.less');
+@import url('https://cdn.amcapi.com/cloudweb/1.0.2/cloud-sections.less');
+@import url('https://cdn.amcapi.com/cloudweb/1.0.2/cloud-header.less');
+```
