@@ -1,4 +1,4 @@
-using AngryMonkey.Cloud.Components;
+using AngryMonkey.CloudWeb;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,4 +1,4 @@
-﻿using AngryMonkey.Cloud.Components;
+﻿using AngryMonkey.CloudWeb;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.IO;
@@ -9,7 +9,7 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 public static class MvcServiceCollectionExtensions
 {
-    public static CloudWeb2 AddCloudWeb(this IServiceCollection services, CloudWeb2 cloudWeb)
+    public static CloudWebConfig AddCloudWeb(this IServiceCollection services, CloudWebConfig cloudWeb)
     {
         //if (options.AutoAppendBlazorStyles)
         //{

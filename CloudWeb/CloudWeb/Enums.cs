@@ -1,4 +1,4 @@
-﻿namespace AngryMonkey.Cloud.Components;
+﻿namespace AngryMonkey.CloudWeb;
 
 public enum CloudPageFeatures
 {

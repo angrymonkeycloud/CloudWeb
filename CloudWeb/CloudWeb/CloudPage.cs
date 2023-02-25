@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AngryMonkey.Cloud.Components;
+namespace AngryMonkey.CloudWeb;
 
 public class CloudPage
 {
@@ -157,7 +157,7 @@ public class CloudPage
         return null;
     }
 
-    public string TitleResult(CloudWeb2 cloudWeb)
+    public string TitleResult(CloudWebConfig cloudWeb)
     {
         if (string.IsNullOrEmpty(Title))
             return cloudWeb.PageDefaults.Title;

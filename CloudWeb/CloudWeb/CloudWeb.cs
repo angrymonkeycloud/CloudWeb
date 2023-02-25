@@ -1,8 +1,6 @@
-﻿using AngryMonkey.Cloud.Components;
+﻿namespace AngryMonkey.CloudWeb;
 
-namespace AngryMonkey.Cloud.Components;
-
-public class CloudWeb2
+public class CloudWebConfig
 {
     public CloudPage PageDefaults { get; set; } = new();
     public string TitlePrefix { get; set; } = string.Empty;

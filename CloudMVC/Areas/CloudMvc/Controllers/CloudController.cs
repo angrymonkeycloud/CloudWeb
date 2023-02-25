@@ -1,4 +1,4 @@
-﻿using AngryMonkey.Cloud.Components;
+﻿using AngryMonkey.CloudWeb;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -45,7 +45,7 @@ namespace AngryMonkey.CloudMVC
         {
             string userAgeny = ControllerContext.HttpContext.Request.Headers.UserAgent.ToString().Trim().ToLower();
 
-            return CloudWeb2.CrawlersUserAgents.Any(userAgeny.Contains);
+            return CloudWebConfig.CrawlersUserAgents.Any(userAgeny.Contains);
         }
     }
 }
