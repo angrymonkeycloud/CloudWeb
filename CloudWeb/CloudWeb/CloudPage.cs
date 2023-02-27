@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 
 namespace AngryMonkey.CloudWeb;
@@ -11,18 +13,25 @@ public class CloudPage
     public List<string> TitleAddOns { get; set; } = new List<string>();
     public string? Keywords { get; set; }
     public string? Description { get; set; }
-    public bool IndexPage { get; set; } = true;
-    public bool FollowPage { get; set; } = true;
-    public bool IsCrawler { get; set; } = true;
-    public string BaseUrl { get; set; } = "/";
+    public bool? IndexPage { get; set; }
+    public bool? FollowPage { get; set; }
+    public bool? IsCrawler { get; set; }
+    public string? BaseUrl { get; set; }
     public string? CallingAssemblyName { get; set; }
-    public bool AutoAppendBlazorStyles { get; set; } = true;
+    public bool? AutoAppendBlazorStyles { get; set; }
     public List<CloudPageFeatures> Features { get; set; } = new();
-    public CloudPageBlazorRenderModes BlazorRenderMode { get; set; } = CloudPageBlazorRenderModes.None;
+    public CloudPageBlazorRenderModes? BlazorRenderMode { get; set; }
 
     public List<CloudBundle> Bundles { get; set; } = new List<CloudBundle>();
 
     public event EventHandler? OnModified;
+
+    public static CloudPage Current(ViewDataDictionary viewData)
+    {
+        object? obj = viewData["CloudPageStatic"];
+
+        return obj == null ? new() : obj as CloudPage;
+    }
 
     public CloudPage AppendBundle(CloudBundle bundle)
     {
@@ -145,10 +154,10 @@ public class CloudPage
     {
         List<string> content = new();
 
-        if (!IndexPage)
+        if (IndexPage.HasValue && !IndexPage.Value)
             content.Add("noindex");
 
-        if (!FollowPage)
+        if (FollowPage.HasValue && !FollowPage.Value)
             content.Add("nofollow");
 
         if (content.Any())
@@ -157,7 +166,7 @@ public class CloudPage
         return null;
     }
 
-    public string TitleResult(CloudWebConfig cloudWeb)
+    public string? TitleResult(CloudWebConfig cloudWeb)
     {
         if (string.IsNullOrEmpty(Title))
             return cloudWeb.PageDefaults.Title;
@@ -176,7 +185,22 @@ public class CloudPage
 
     public string? DescriptionResult() => Description?.Length > 160 ? $"{Description[..157]}..." : Description;
 
-    public CloudPageBlazorRenderModes BlazorRenderModeResult() =>
-        BlazorRenderMode == CloudPageBlazorRenderModes.None || BlazorRenderMode != CloudPageBlazorRenderModes.CrawlerAuto ? BlazorRenderMode :
-        (IsCrawler ? CloudPageBlazorRenderModes.Server : CloudPageBlazorRenderModes.WebAssembly);
+    public CloudPageBlazorRenderModes BlazorRenderModeResult()
+    {
+        if (!BlazorRenderMode.HasValue)
+            return CloudPageBlazorRenderModes.None;
+
+        if (BlazorRenderMode != CloudPageBlazorRenderModes.CrawlerAuto)
+            return BlazorRenderMode.Value;
+
+        if (IsCrawler.HasValue && IsCrawler.Value)
+            return CloudPageBlazorRenderModes.None;
+
+        return CloudPageBlazorRenderModes.WebAssembly;
+    } 
+    
+    //=>
+    //    !BlazorRenderMode.HasValue? CloudPageBlazorRenderModes.None :
+    //    (BlazorRenderMode == CloudPageBlazorRenderModes.None || BlazorRenderMode != CloudPageBlazorRenderModes.CrawlerAuto ? BlazorRenderMode :
+    //    (IsCrawler.HasValue && IsCrawler.Value ? CloudPageBlazorRenderModes.Server : CloudPageBlazorRenderModes.WebAssembly)) ?? CloudPageBlazorRenderModes.None;
 }

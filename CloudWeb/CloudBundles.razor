@@ -1,7 +1,5 @@
 ﻿@namespace AngryMonkey.CloudWeb
 
-@inject CloudWebConfig cloudWeb
-
 @if (CloudPage.Features.Contains(CloudPageFeatures.TextEditor))
 {
     <script suppress-error="BL9992" src="https://cdn.tiny.cloud/1/f8trq6j2jvxse0u7va7inyvimycrrvdcxal44jh8smq4op5p/tinymce/5/tinymce.min.js" crossorigin="anonymous" defer=""></script>
@@ -20,10 +18,9 @@
 
 <script suppress-error="BL9992">var exports = {};</script>
 
-@foreach (CloudBundle bundle in Bundles)
+@foreach (CloudBundle bundle in CloudPage.Bundles)
 {
     <CloudBundle Source="@bundle.Source"
-             JQuery="@bundle.JQuery"
              MinOnRelease="bundle.MinOnRelease"
              Async="bundle.Async"
              Defer="bundle.Defer"
@@ -32,15 +29,4 @@
 
 @code {
     [Parameter] public required CloudPage CloudPage { get; set; }
-
-    private List<CloudBundle> Bundles
-    {
-        get
-        {
-            List<CloudBundle> bundles = new(cloudWeb.PageDefaults.Bundles);
-            bundles.AddRange(CloudPage.Bundles);
-
-            return bundles;
-        }
-    }
 }

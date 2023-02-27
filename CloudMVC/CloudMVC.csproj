@@ -1,15 +1,31 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-		<Version>1.0.0</Version>
-		<AssemblyName>AngryMonkey.CloudMVC</AssemblyName>
-		<RootNamespace>AngryMonkey.CloudMVC</RootNamespace>
+		<Version>1.0.1</Version>
+		<AssemblyName>AngryMonkey.CloudWeb.MVC</AssemblyName>
+		<RootNamespace>AngryMonkey.CloudWeb.CloudMVC</RootNamespace>
+
+		<AssemblyVersion>$(PackageVersion)</AssemblyVersion>
+		<FileVersion>$(PackageVersion)</FileVersion>
+		<PackageOutputPath>..\NugetPackages\</PackageOutputPath>
+		<PackageIcon>AngryMonkeyCloudLogo-64x64.png</PackageIcon>
+		<PackageProjectUrl>https://www.angrymonkeycloud.com/</PackageProjectUrl>
+		<Product>Cloud Web MVC</Product>
+		<Authors>Angry Monkey</Authors>
+		<Company>Angry Monkey</Company>
   </PropertyGroup>
 
+	<ItemGroup>
+		<None Update="AngryMonkeyCloudLogo-64x64.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+	
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>

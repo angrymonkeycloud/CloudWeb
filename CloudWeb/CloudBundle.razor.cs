@@ -11,7 +11,6 @@ namespace AngryMonkey.CloudWeb;
 public partial class CloudBundle
 {
     [Parameter] public required string Source { get; set; }
-    [Parameter] public string? JQuery { get; set; }
     [Parameter] public bool MinOnRelease { get; set; } = true;
     [Parameter] public string? AddOns { get; set; }
     [Parameter] public bool Defer { get; set; } = true;
@@ -38,9 +37,6 @@ public partial class CloudBundle
     {
         get
         {
-            if (!string.IsNullOrEmpty(JQuery))
-                return $"<script crossorigin=\"anonymous\" src=\"https://code.jquery.com/jquery-{JQuery}.min.js\" integrity=\"sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=\" defer=\"\"></script>";
-
             if (string.IsNullOrEmpty(Source) || !Source.Contains('.'))
                 return null;
 

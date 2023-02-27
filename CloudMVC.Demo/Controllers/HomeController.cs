@@ -13,8 +13,9 @@ namespace CloudMVC.Demo.Controllers
         public IActionResult Index()
         {
             CloudPage("New Test")
-                   .SetDescription("Test Description")
-                   .SetBlazor(CloudPageBlazorRenderModes.Server);
+                .SetIsCrawler(IsCrawler())
+                .SetDescription("Test Description")
+                .SetBlazor(CloudPageBlazorRenderModes.Server);
 
             return View();
         }

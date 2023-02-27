@@ -11,6 +11,7 @@ namespace AngryMonkey.CloudMVC
 {
     public class CloudController : Controller
     {
+        [NonAction]
         public CloudPage CloudPage(string? title = null)
         {
             CloudPage cloudPage = new();
@@ -41,7 +42,8 @@ namespace AngryMonkey.CloudMVC
             return cloudPage;
         }
 
-        private bool IsCrawler()
+		[NonAction]
+		public bool IsCrawler()
         {
             string userAgeny = ControllerContext.HttpContext.Request.Headers.UserAgent.ToString().Trim().ToLower();
 
