@@ -186,21 +186,5 @@ public class CloudPage
     public string? DescriptionResult() => Description?.Length > 160 ? $"{Description[..157]}..." : Description;
 
     public CloudPageBlazorRenderModes BlazorRenderModeResult()
-    {
-        if (!BlazorRenderMode.HasValue)
-            return CloudPageBlazorRenderModes.None;
-
-        if (BlazorRenderMode != CloudPageBlazorRenderModes.CrawlerAuto)
-            return BlazorRenderMode.Value;
-
-        if (IsCrawler.HasValue && IsCrawler.Value)
-            return CloudPageBlazorRenderModes.None;
-
-        return CloudPageBlazorRenderModes.WebAssembly;
-    } 
-    
-    //=>
-    //    !BlazorRenderMode.HasValue? CloudPageBlazorRenderModes.None :
-    //    (BlazorRenderMode == CloudPageBlazorRenderModes.None || BlazorRenderMode != CloudPageBlazorRenderModes.CrawlerAuto ? BlazorRenderMode :
-    //    (IsCrawler.HasValue && IsCrawler.Value ? CloudPageBlazorRenderModes.Server : CloudPageBlazorRenderModes.WebAssembly)) ?? CloudPageBlazorRenderModes.None;
+        => !BlazorRenderMode.HasValue || (IsCrawler.HasValue && IsCrawler.Value) ? CloudPageBlazorRenderModes.None : BlazorRenderMode.Value;
 }

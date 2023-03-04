@@ -10,6 +10,5 @@ public enum CloudPageBlazorRenderModes
 {
     Server,
     WebAssembly,
-    CrawlerAuto,
     None
 }
