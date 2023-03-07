@@ -10,8 +10,6 @@
 {
     case CloudPageBlazorRenderModes.Server:
         <script suppress-error="BL9992" src="/_framework/blazor.server.js" defer></script>
-
-        <script suppress-error="BL9992" src="/js/blazor.js" defer></script>
         break;
 
     case CloudPageBlazorRenderModes.WebAssembly:
@@ -32,6 +30,7 @@
                 {
                     // Nullable
 
+                    Title = CloudPage.Title,
                     Keywords = CloudPage.Keywords ?? cloudWeb.PageDefaults.Keywords,
                     Description = CloudPage.Description ?? cloudWeb.PageDefaults.Description,
                     TitleAddOns = CloudPage.TitleAddOns ?? cloudWeb.PageDefaults.TitleAddOns,
