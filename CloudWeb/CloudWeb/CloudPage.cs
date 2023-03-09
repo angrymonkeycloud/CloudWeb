@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 
@@ -33,8 +34,11 @@ public class CloudPage
         return obj == null ? new() : obj as CloudPage;
     }
 
-    public CloudPage AppendBundle(CloudBundle bundle)
+    public CloudPage AppendBundle(CloudBundle? bundle)
     {
+        if (bundle == null)
+            return this;
+
         Bundles.Add(bundle);
 
         OnModified?.Invoke(this, new EventArgs());
@@ -42,8 +46,11 @@ public class CloudPage
         return this;
     }
 
-    public CloudPage AppendBundle(string bundleSource)
+    public CloudPage AppendBundle(string? bundleSource)
     {
+        if (string.IsNullOrEmpty(bundleSource))
+            return this;
+
         Bundles.Add(new CloudBundle() { Source = bundleSource });
 
         OnModified?.Invoke(this, new EventArgs());
