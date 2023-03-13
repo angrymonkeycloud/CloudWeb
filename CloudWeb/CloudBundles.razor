@@ -11,8 +11,6 @@
     <script suppress-error="BL9992" src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js" defer></script>
 }
 
-@if (Cloud)
-
 @if (CloudPage.BlazorRenderMode != CloudPageBlazorRenderModes.None)
 {
     <link href="@($"{CloudPage.CallingAssemblyName}.styles.css")" rel="stylesheet">

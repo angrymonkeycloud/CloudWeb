@@ -60,7 +60,8 @@
 				"src/message.ts",
 				"src/sidebar.ts",
 				"src/siema.js",
-				"src/carousel.ts"
+				"src/carousel.ts",
+				"src/datetimepicker.js"
 			],
 			"output": "cloud-components.js",
 			"builds": [ "dist" ]
@@ -70,7 +71,8 @@
 				"src/popup.less",
 				"src/message.less",
 				"src/sidebar.less",
-				"src/carousel.less"
+				"src/carousel.less",
+				"src/datetimepicker.less"
 			],
 			"output": "cloud-components.less",
 			"builds": [ "dist" ]

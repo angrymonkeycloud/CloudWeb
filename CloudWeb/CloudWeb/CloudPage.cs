@@ -148,7 +148,7 @@ public class CloudPage
         return this;
     }
 
-    public CloudPage SetFeatures(params CloudPageFeatures[] features)
+    public CloudPage AddFeatures(params CloudPageFeatures[] features)
     {
         Features.AddRange(features);
 
