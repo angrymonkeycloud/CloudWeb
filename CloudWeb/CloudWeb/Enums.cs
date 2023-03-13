@@ -3,7 +3,9 @@
 public enum CloudPageFeatures
 {
     Maps,
-    TextEditor
+    TextEditor,
+    Carousel,
+    DateTimePicker
 }
 
 public enum CloudPageBlazorRenderModes

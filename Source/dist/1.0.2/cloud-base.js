@@ -9,7 +9,7 @@ var loadImageObserver = new IntersectionObserver(function (entries) {
         }
     });
 });
-var CoreMain = /** @class */ (function () {
+var CoreMain = (function () {
     function CoreMain() {
     }
     CoreMain.reinitializeLazyLoadingImages = function () {
@@ -20,7 +20,7 @@ var CoreMain = /** @class */ (function () {
     };
     CoreMain.preventScrolling = function () {
         var width = document.body.offsetWidth;
-        document.querySelector('html').classList.add('_noscroll');
+        $('html').addClass('_noscroll');
         var scrollWidth = document.body.offsetWidth - width;
         if (scrollWidth > 0) {
             document.body.style.marginRight = scrollWidth + 'px';
@@ -30,7 +30,7 @@ var CoreMain = /** @class */ (function () {
         }
     };
     CoreMain.allowScrolling = function () {
-        document.querySelector('html').classList.remove('_noscroll');
+        $('html').removeClass('_noscroll');
         document.body.style.marginRight = null;
         var header = document.querySelector('body > header');
         if (header !== null)
@@ -40,20 +40,14 @@ var CoreMain = /** @class */ (function () {
         if (typeof scroll === 'object')
             scroll = window.pageYOffset + scroll.getBoundingClientRect().y;
         var scrollTo = scroll;
-        // Declarations
         var cosParameter = (window.pageYOffset - scrollTo) / 2;
         var scrollCount = 0;
         var oldTimestamp = window.performance.now();
         function step(newTimestamp) {
             var tsDiff = newTimestamp - oldTimestamp;
-            // Performance.now() polyfill loads late so passed-in timestamp is a larger offset
-            // on the first go-through than we want so I'm adjusting the difference down here.
-            // Regardless, we would rather have a slightly slower animation than a big jump so a good
-            // safeguard, even if we're not using the polyfill.
             if (tsDiff > 100)
                 tsDiff = 30;
             scrollCount += Math.PI / (scrollDuration / tsDiff);
-            // As soon as we cross over Pi, we're about where we need to be
             if (scrollCount >= Math.PI)
                 return;
             var moveStep = Math.round(scrollTo + cosParameter + cosParameter * Math.cos(scrollCount));
@@ -70,16 +64,46 @@ CoreMain.reinitializeLazyLoadingImages();
 
 
 var exports = {};
-// Dock Links
-document.querySelectorAll('a[href*="#"]:not([href="#"])').forEach(function (item) {
-    item.addEventListener('click', function () {
-        if (location.pathname.replace(/^\//, '') === this.pathname.replace(/^\//, '') && location.hostname === this.hostname) {
-            var target = $(this.hash);
-            target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
-            if (target.length)
-                CoreMain.scrollTo(target[0], 200);
-            return false;
-        }
-    });
+var CoreString = (function () {
+    function CoreString() {
+    }
+    CoreString.randomLetters = function (length) {
+        var result = "";
+        var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        var charactersLength = characters.length;
+        for (var i = 0; i < length; i++)
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        return result;
+    };
+    CoreString.randomNumbers = function (length) {
+        var result = "";
+        var characters = "012345678911";
+        var charactersLength = characters.length;
+        for (var i = 0; i < length; i++)
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        return result;
+    };
+    CoreString.random = function (length) {
+        var result = "";
+        var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        var charactersLength = characters.length;
+        for (var i = 0; i < length; i++)
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        return result;
+    };
+    return CoreString;
+}());
+{ CoreString };
+
+
+var exports = {};
+$(document).on('click', 'a[href*="#"]:not([href="#"])', function () {
+    if (location.pathname.replace(/^\//, '') === this.pathname.replace(/^\//, '') && location.hostname === this.hostname) {
+        var target = $(this.hash);
+        target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+        if (target.length)
+            CoreMain.scrollTo(target[0], 200);
+        return false;
+    }
 });
 

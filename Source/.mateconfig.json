@@ -1,0 +1,83 @@
+{
+	"builds": [
+		{
+			"name": "dev",
+			"css": {
+				"minify": false,
+				"sourceMap": true
+			}
+		},
+		{
+			"name": "dist",
+			"outDir": "dist",
+			"outDirVersioning": true,
+			"outDirName": false,
+			"css": {
+				"minify": true,
+				"sourceMap": false
+			},
+			"js": {
+				"minify": true,
+				"sourceMap": false,
+				"declaration": true,
+				"webClean": true
+			}
+		}
+	],
+	"files": [
+		{
+			"input": "src/cloud/variables.less",
+			"output": "cloud-variables.less",
+			"builds": [ "dist" ]
+		},
+		{
+			"input": "src/cloud/base.less",
+			"output": "cloud-base.less",
+			"builds": [ "dist" ]
+		},
+		{
+			"input": "src/cloud/header.less",
+			"output": "cloud-header.less",
+			"builds": [ "dist" ]
+		},
+		{
+			"input": "src/cloud/sections.less",
+			"output": "cloud-sections.less",
+			"builds": [ "dist" ]
+		},
+		{
+			"input": [
+				"src/cloud/main.ts",
+				"src/cloud/string.ts",
+				"src/cloud/methods.ts"
+			],
+			"output": "cloud-base.js",
+			"builds": [ "dist" ]
+		},
+		{
+			"input": [
+				"src/popup.ts",
+				"src/message.ts",
+				"src/sidebar.ts",
+				"src/siema.js",
+				"src/carousel.ts"
+			],
+			"output": "cloud-components.js",
+			"builds": [ "dist" ]
+		},
+		{
+			"input": [
+				"src/popup.less",
+				"src/message.less",
+				"src/sidebar.less",
+				"src/carousel.less"
+			],
+			"output": "cloud-components.less",
+			"builds": [ "dist" ]
+		},
+		{
+			"input": "test/css/site.less",
+			"output": "test/css/site.css"
+		}
+	]
+}

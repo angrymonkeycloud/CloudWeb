@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "noEmitOnError": false,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "module": "ES6",
+    "target": "ES5",
+    "lib": [ "ES2015", "DOM" ]
+  },
+  "exclude": [
+    "node_modules",
+    "wwwroot"
+  ]
+}
