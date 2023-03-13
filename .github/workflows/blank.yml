@@ -27,7 +27,7 @@ jobs:
         
       - name: Publish to Azure Blob Storage
         run: |
-          packageVersion=$(jq -r '.version' source/package.json);
+          packageVersion=$(jq -r '.version' Source/package.json);
           dirpath="dist/$packageVersion"
           echo "Directory path: $dirpath"
           mkdir -p "$dirpath"
