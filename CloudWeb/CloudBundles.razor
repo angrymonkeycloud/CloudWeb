@@ -11,6 +11,11 @@
     <script suppress-error="BL9992" src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/2/atlas.min.js" defer></script>
 }
 
+@if (CloudPage.Features.Contains(CloudPageFeatures.JQuery))
+{
+    <script suppress-error="BL9992" src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+}
+
 @if (CloudPage.BlazorRenderMode != CloudPageBlazorRenderModes.None)
 {
     <link href="@($"{CloudPage.CallingAssemblyName}.styles.css")" rel="stylesheet">

@@ -3,5 +3,6 @@
 public enum CloudPageFeatures
 {
     Maps,
-    TextEditor
+    TextEditor,
+    JQuery
 }
