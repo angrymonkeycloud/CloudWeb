@@ -38,6 +38,7 @@
 
                     // Not Nullable
 
+                    Favicon = CloudPage.Favicon ?? cloudWeb.PageDefaults.Favicon ?? "/favicon.ico",
                     BaseUrl = CloudPage.BaseUrl ?? cloudWeb.PageDefaults.BaseUrl ?? "/",
                     IndexPage = CloudPage.IndexPage ?? cloudWeb.PageDefaults.IndexPage ?? true,
                     FollowPage = CloudPage.FollowPage ?? cloudWeb.PageDefaults.FollowPage ?? true,

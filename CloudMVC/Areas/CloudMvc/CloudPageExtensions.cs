@@ -8,8 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
-public static class CloudPageExtensions
+public static class CloudPageExtension
 {
     public static RenderMode GetRenderMode(this CloudPage cloudPage) => cloudPage.BlazorRenderModeResult() switch
     {
@@ -18,13 +19,20 @@ public static class CloudPageExtensions
         _ => RenderMode.Static,
     };
 
+    public static CloudPage Current(ViewDataDictionary viewData)
+    {
+        object? obj = viewData["CloudPageStatic"];
+
+        return obj == null ? new() : obj as CloudPage;
+    }
+
     public static void Bundle(this IHtmlHelper html, string file)
     {
-        CloudPage.Current(html.ViewData).AppendBundle(file);
+        Current(html.ViewData).AppendBundle(file);
     }
 
     public static void Bundle(this IHtmlHelper html, CloudBundle bundle)
     {
-        CloudPage.Current(html.ViewData).AppendBundle(bundle);
+        Current(html.ViewData).AppendBundle(bundle);
     }
 }

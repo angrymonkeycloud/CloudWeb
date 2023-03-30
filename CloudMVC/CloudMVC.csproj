@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-		<Version>1.0.2</Version>
+		<Version>1.0.4</Version>
 		<AssemblyName>AngryMonkey.CloudWeb.MVC</AssemblyName>
 		<RootNamespace>AngryMonkey.CloudWeb.CloudMVC</RootNamespace>
 
@@ -25,12 +25,12 @@
 			<PackagePath>\</PackagePath>
 		</None>
 	</ItemGroup>
-	
-  <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
 
-  <ItemGroup>
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+	<ItemGroup>
     <ProjectReference Include="..\CloudWeb\CloudWeb.csproj" />
   </ItemGroup>
 

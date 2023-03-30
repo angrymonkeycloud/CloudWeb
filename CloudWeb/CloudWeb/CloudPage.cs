@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata;
@@ -18,6 +17,7 @@ public class CloudPage
     public bool? FollowPage { get; set; }
     public bool? IsCrawler { get; set; }
     public string? BaseUrl { get; set; }
+    public string? Favicon { get; set; }
     public string? CallingAssemblyName { get; set; }
     public bool? AutoAppendBlazorStyles { get; set; }
     public List<CloudPageFeatures> Features { get; set; } = new();
@@ -26,13 +26,6 @@ public class CloudPage
     public List<CloudBundle> Bundles { get; set; } = new List<CloudBundle>();
 
     public event EventHandler? OnModified;
-
-    public static CloudPage Current(ViewDataDictionary viewData)
-    {
-        object? obj = viewData["CloudPageStatic"];
-
-        return obj == null ? new() : obj as CloudPage;
-    }
 
     public CloudPage AppendBundle(CloudBundle? bundle)
     {
@@ -61,6 +54,15 @@ public class CloudPage
     public CloudPage SetTitle(string title)
     {
         Title = title;
+
+        OnModified?.Invoke(this, new EventArgs());
+
+        return this;
+    }
+
+    public CloudPage SetFavicon(string path)
+    {
+        Favicon = path;
 
         OnModified?.Invoke(this, new EventArgs());
 
@@ -187,6 +189,8 @@ public class CloudPage
 
         return title.ToString();
     }
+
+    public string FaviconResult() => Favicon;
 
     public string? KeywordsResult() => Keywords;
 
