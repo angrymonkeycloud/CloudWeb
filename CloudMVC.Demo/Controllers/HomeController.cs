@@ -12,7 +12,7 @@ namespace CloudMVC.Demo.Controllers
     {
         public IActionResult Index()
         {
-            CloudPage("New Test")
+            CloudPage()
                 .SetIsCrawler(IsCrawler())
                 .SetDescription("Test Description")
                 .SetBlazor(CloudPageBlazorRenderModes.Server);
@@ -22,6 +22,8 @@ namespace CloudMVC.Demo.Controllers
 
         public IActionResult Privacy()
         {
+            CloudPage("Privacy");
+
             return View();
         }
 

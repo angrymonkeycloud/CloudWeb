@@ -177,17 +177,22 @@ public class CloudPage
 
     public string? TitleResult(CloudWebConfig cloudWeb)
     {
+        StringBuilder titleBuilder = new();
+
         if (string.IsNullOrEmpty(Title))
-            return cloudWeb.PageDefaults.Title;
+            titleBuilder.Append(cloudWeb.PageDefaults.Title);
+        else
+            titleBuilder.Append($"{cloudWeb.TitlePrefix}{Title}{cloudWeb.TitleSuffix}");
 
-        StringBuilder title = new($"{cloudWeb.TitlePrefix}{Title}{cloudWeb.TitleSuffix}");
+        List<string> addOns = cloudWeb.PageDefaults.TitleAddOns;
+        addOns.AddRange(TitleAddOns);
 
-        if (TitleAddOns.Any())
-            foreach (string addText in TitleAddOns)
-                if (title.Length + addText.Length + 1 <= 64)
-                    title.Append($" {addText}");
+        if (addOns.Any())
+            foreach (string addText in addOns)
+                if (titleBuilder.Length + addText.Length + 1 <= 64)
+                    titleBuilder.Append($" {addText}");
 
-        return title.ToString();
+        return titleBuilder.ToString();
     }
 
     public string FaviconResult() => Favicon;

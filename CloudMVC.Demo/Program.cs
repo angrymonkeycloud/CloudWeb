@@ -15,6 +15,11 @@ builder.Services.AddCloudWeb(new()
         Bundles = new()
         {
             new CloudBundle(){ Source = "/css/site.css"}
+        },
+        TitleAddOns = new()
+        {
+            "Adon Tst",
+            "dsa"
         }
     },
     TitlePrefix = "Pre - ",
