@@ -1,26 +1,14 @@
 ﻿@namespace AngryMonkey.CloudWeb
 
 @inject CloudWebConfig cloudWeb
+@inject CloudPage CloudPage
 
 <CloudHead CloudPage="PageConfig" />
 <CloudBundles CloudPage="PageConfig" />
 <HeadOutlet />
 
-@switch (PageConfig.BlazorRenderModeResult())
-{
-    case CloudPageBlazorRenderModes.Server:
-        <script suppress-error="BL9992" src="/_framework/blazor.server.js" defer></script>
-        break;
-
-    case CloudPageBlazorRenderModes.WebAssembly:
-        <script suppress-error="BL9992" src="/_framework/blazor.webassembly.js" defer></script>
-        break;
-
-    default: break;
-}
-
 @code {
-    [Parameter] public required CloudPage CloudPage { get; set; }
+    // [Parameter] public required CloudPage CloudPage { get; set; }
 
     protected CloudPage PageConfig
     {
@@ -45,7 +33,6 @@
                     IndexPage = CloudPage.IndexPage ?? cloudWeb.PageDefaults.IndexPage ?? true,
                     FollowPage = CloudPage.FollowPage ?? cloudWeb.PageDefaults.FollowPage ?? true,
                     IsCrawler = CloudPage.IsCrawler ?? cloudWeb.PageDefaults.IsCrawler ?? false,
-                    BlazorRenderMode = CloudPage.BlazorRenderMode ?? cloudWeb.PageDefaults.BlazorRenderMode ?? CloudPageBlazorRenderModes.None,
                     AutoAppendBlazorStyles = CloudPage.AutoAppendBlazorStyles ?? cloudWeb.PageDefaults.AutoAppendBlazorStyles ?? false,
                 };
 

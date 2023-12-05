@@ -10,7 +10,7 @@ namespace AngryMonkey.CloudWeb;
 public class CloudPage
 {
     public string? Title { get; set; }
-    public List<string> TitleAddOns { get; set; } = new List<string>();
+    public List<string> TitleAddOns { get; set; } = [];
     public string? Keywords { get; set; }
     public string? Description { get; set; }
     public bool? IndexPage { get; set; }
@@ -18,12 +18,11 @@ public class CloudPage
     public bool? IsCrawler { get; set; }
     public string? BaseUrl { get; set; }
     public string? Favicon { get; set; }
-    public string? CallingAssemblyName { get; set; }
+    public string? CallingAssemblyName { get; set; } 
     public bool? AutoAppendBlazorStyles { get; set; }
-    public List<CloudPageFeatures> Features { get; set; } = new();
-    public CloudPageBlazorRenderModes? BlazorRenderMode { get; set; }
+    public List<CloudPageFeatures> Features { get; set; } = [];
 
-    public List<CloudBundle> Bundles { get; set; } = new List<CloudBundle>();
+    public List<CloudBundle> Bundles { get; set; } = [];
 
     public event EventHandler? OnModified;
 
@@ -132,15 +131,6 @@ public class CloudPage
         return this;
     }
 
-    public CloudPage SetBlazor(CloudPageBlazorRenderModes renderMode)
-    {
-        BlazorRenderMode = renderMode;
-
-        OnModified?.Invoke(this, new EventArgs());
-
-        return this;
-    }
-
     public CloudPage SetIsCrawler(bool isCrawler)
     {
         IsCrawler = isCrawler;
@@ -161,7 +151,7 @@ public class CloudPage
 
     public string? RobotsResult()
     {
-        List<string> content = new();
+        List<string> content = [];
 
         if (IndexPage.HasValue && !IndexPage.Value)
             content.Add("noindex");
@@ -195,12 +185,9 @@ public class CloudPage
         return titleBuilder.ToString();
     }
 
-    public string FaviconResult() => Favicon;
+    public string? FaviconResult() => Favicon;
 
     public string? KeywordsResult() => Keywords;
 
     public string? DescriptionResult() => Description?.Length > 160 ? $"{Description[..157]}..." : Description;
-
-    public CloudPageBlazorRenderModes BlazorRenderModeResult()
-        => !BlazorRenderMode.HasValue || (IsCrawler.HasValue && IsCrawler.Value) ? CloudPageBlazorRenderModes.None : BlazorRenderMode.Value;
 }

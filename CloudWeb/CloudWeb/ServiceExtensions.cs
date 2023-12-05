@@ -9,17 +9,11 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 public static class MvcServiceCollectionExtensions
 {
-    public static CloudWebConfig AddCloudWeb(this IServiceCollection services, CloudWebConfig cloudWeb)
+    public static CloudWebConfig AddCloudWeb(this IServiceCollection services, CloudWebConfig defaultConfig)
     {
-        //if (options.AutoAppendBlazorStyles)
-        //{
-        //    string assemblyName = Assembly.GetCallingAssembly().GetName().Name;
-        //    options.SiteBundles.Insert(0, new CloudBundle() { Source = $"{assemblyName}.styles.css", MinOnRelease = false });
-        //}
+        services.AddSingleton(defaultConfig);
+        services.AddScoped(_ => new CloudPage());
 
-        services.AddSingleton(cloudWeb);
-        services.AddScoped(s => new CloudPage());
-
-        return cloudWeb;
+        return defaultConfig;
     }
 }

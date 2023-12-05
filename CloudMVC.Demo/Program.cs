@@ -12,15 +12,15 @@ builder.Services.AddCloudWeb(new()
     {
         Title = "MVC Website Demo",
         AutoAppendBlazorStyles = false,
-        Bundles = new()
-        {
+        Bundles =
+        [
             new CloudBundle(){ Source = "/css/site.css"}
-        },
-        TitleAddOns = new()
-        {
+        ],
+        TitleAddOns =
+        [
             "Adon Tst",
             "dsa"
-        }
+        ]
     },
     TitlePrefix = "Pre - ",
     TitleSuffix = " - Suffix"

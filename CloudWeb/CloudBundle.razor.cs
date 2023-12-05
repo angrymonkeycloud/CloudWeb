@@ -50,10 +50,10 @@ public partial class CloudBundle
             if (sourceType == null)
                 return null;
 
-            List<string> segments = new()
-                {
-                    sourceType == SourceTypes.CSS? "<link" : "<script"
-                };
+            List<string> segments =
+                [
+                    sourceType == SourceTypes.CSS ? "<link" : "<script"
+                ];
 
             string source = Source;
 

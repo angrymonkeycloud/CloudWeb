@@ -1,0 +1,24 @@
+﻿@page "/counter"
+@rendermode InteractiveAuto
+@inject CloudPage CloudPage
+@{
+    CloudPage.SetTitle($"Counter: {currentCount}");
+}
+
+<CloudHeadContent />
+
+<h1>Counter</h1>
+
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+        CloudPage.SetTitle($"Counter: {currentCount}");
+    }
+}

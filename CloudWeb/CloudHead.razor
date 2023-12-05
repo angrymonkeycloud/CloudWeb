@@ -6,7 +6,7 @@
     string? keywords = CloudPage.KeywordsResult();
     string? description = CloudPage.DescriptionResult();
     string? robots = CloudPage.RobotsResult();
-    string favicon = CloudPage.FaviconResult();
+    string? favicon = CloudPage.FaviconResult();
 }
 
 @if (!string.IsNullOrEmpty(title))
@@ -17,7 +17,11 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <base href="@CloudPage.BaseUrl" />
-<link rel="icon" href="@favicon" />
+
+@if (!string.IsNullOrEmpty(favicon))
+{
+    <link rel="icon" href="@favicon" />
+}
 
 @if (!string.IsNullOrEmpty(keywords))
 {

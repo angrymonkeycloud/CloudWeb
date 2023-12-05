@@ -3,15 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Source", "Source\Source.csproj", "{4039A06C-8B5F-4F7E-A765-5C085015EDB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Source", "Source\Source.csproj", "{4039A06C-8B5F-4F7E-A765-5C085015EDB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudWeb", "CloudWeb\CloudWeb.csproj", "{5BFEEFE5-F3A9-4DE7-BB7D-57B4ABB62470}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudWeb", "CloudWeb\CloudWeb.csproj", "{5BFEEFE5-F3A9-4DE7-BB7D-57B4ABB62470}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudMVC", "CloudMVC\CloudMVC.csproj", "{50A20C83-41C1-4C35-AC2F-E5DE95351659}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudMVC.Demo", "CloudMVC.Demo\CloudMVC.Demo.csproj", "{5D49E5C7-F27E-4896-98A3-B3C8801CCEA2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{1B2E0F7F-A337-4703-9C2D-4D1E616E3E8B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudWeb.BlazorDemo", "CloudWeb.BlazorDemo\CloudWeb.BlazorDemo\CloudWeb.BlazorDemo.csproj", "{F27F17B7-C205-4E4E-9C4B-EEB6C0694474}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudWeb.BlazorDemo.Client", "CloudWeb.BlazorDemo\CloudWeb.BlazorDemo.Client\CloudWeb.BlazorDemo.Client.csproj", "{D7178C83-65F0-49BD-BA69-16AB45F7CE42}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +39,14 @@ Global
 		{5D49E5C7-F27E-4896-98A3-B3C8801CCEA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D49E5C7-F27E-4896-98A3-B3C8801CCEA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D49E5C7-F27E-4896-98A3-B3C8801CCEA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F27F17B7-C205-4E4E-9C4B-EEB6C0694474}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F27F17B7-C205-4E4E-9C4B-EEB6C0694474}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F27F17B7-C205-4E4E-9C4B-EEB6C0694474}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F27F17B7-C205-4E4E-9C4B-EEB6C0694474}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7178C83-65F0-49BD-BA69-16AB45F7CE42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7178C83-65F0-49BD-BA69-16AB45F7CE42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7178C83-65F0-49BD-BA69-16AB45F7CE42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7178C83-65F0-49BD-BA69-16AB45F7CE42}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
