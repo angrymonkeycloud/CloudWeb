@@ -24,7 +24,7 @@ public class CloudPage
 
     public List<CloudBundle> Bundles { get; set; } = [];
 
-    public event EventHandler? OnModified;
+    public event Action? OnModified;
 
     public CloudPage AppendBundle(CloudBundle? bundle)
     {
@@ -33,7 +33,7 @@ public class CloudPage
 
         Bundles.Add(bundle);
 
-        OnModified?.Invoke(this, new EventArgs());
+        OnModified?.Invoke();
 
         return this;
     }
@@ -45,7 +45,7 @@ public class CloudPage
 
         Bundles.Add(new CloudBundle() { Source = bundleSource });
 
-        OnModified?.Invoke(this, new EventArgs());
+        OnModified?.Invoke();
 
         return this;
     }
@@ -54,7 +54,7 @@ public class CloudPage
     {
         Title = title;
 
-        OnModified?.Invoke(this, new EventArgs());
+        OnModified?.Invoke();
 
         return this;
     }
@@ -63,7 +63,7 @@ public class CloudPage
     {
         Favicon = path;
 
-        OnModified?.Invoke(this, new EventArgs());
+        OnModified?.Invoke();
 
         return this;
     }
@@ -72,7 +72,7 @@ public class CloudPage
     {
         BaseUrl = baseUrl;
 
-        OnModified?.Invoke(this, new EventArgs());
+        OnModified?.Invoke();
 
         return this;
     }
@@ -81,7 +81,7 @@ public class CloudPage
     {
         CallingAssemblyName = callingAssemblyName;
 
-        OnModified?.Invoke(this, new EventArgs());
+        OnModified?.Invoke();
 
         return this;
     }
@@ -90,7 +90,7 @@ public class CloudPage
     {
         Keywords = keywords;
 
-        OnModified?.Invoke(this, new EventArgs());
+        OnModified?.Invoke();
 
         return this;
     }
@@ -99,7 +99,7 @@ public class CloudPage
     {
         Description = description;
 
-        OnModified?.Invoke(this, new EventArgs());
+        OnModified?.Invoke();
 
         return this;
     }
@@ -108,7 +108,7 @@ public class CloudPage
     {
         IndexPage = indexPage;
 
-        OnModified?.Invoke(this, new EventArgs());
+        OnModified?.Invoke();
 
         return this;
     }
@@ -117,7 +117,7 @@ public class CloudPage
     {
         FollowPage = followPage;
 
-        OnModified?.Invoke(this, new EventArgs());
+        OnModified?.Invoke();
 
         return this;
     }
@@ -126,7 +126,7 @@ public class CloudPage
     {
         TitleAddOns = titleAddOns;
 
-        OnModified?.Invoke(this, new EventArgs());
+        OnModified?.Invoke();
 
         return this;
     }
@@ -135,7 +135,7 @@ public class CloudPage
     {
         IsCrawler = isCrawler;
 
-        OnModified?.Invoke(this, new EventArgs());
+        OnModified?.Invoke();
 
         return this;
     }
@@ -144,7 +144,7 @@ public class CloudPage
     {
         Features.AddRange(features);
 
-        OnModified?.Invoke(this, new EventArgs());
+        OnModified?.Invoke();
 
         return this;
     }

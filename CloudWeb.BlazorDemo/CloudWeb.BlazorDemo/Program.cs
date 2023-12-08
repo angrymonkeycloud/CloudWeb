@@ -9,19 +9,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
-builder.Services.AddCloudWeb(new CloudWebConfig()
-{
-    PageDefaults = new()
-    {
-        Title = "Default Title",
-        Bundles = [
-            new CloudBundle() { Source = "bootstrap/bootstrap.css" },
-            new CloudBundle() { Source = "app.css", MinOnRelease = false },
-            new CloudBundle() { Source = "CloudWeb.BlazorDemo.styles.css", MinOnRelease = false },
-            new CloudBundle() { Source = "bootstrap/bootstrap.css" }
-        ]
-    }
-});
+builder.Services.AddScoped<CloudPage>();
 
 var app = builder.Build();
 

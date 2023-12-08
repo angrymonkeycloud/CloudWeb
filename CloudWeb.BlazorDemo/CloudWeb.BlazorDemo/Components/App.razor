@@ -1,12 +1,18 @@
-﻿<!DOCTYPE html>
+﻿@inject CloudPage CloudPage
+@{
+    CloudPage.OnModified += StateHasChanged;
+}
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <SectionOutlet SectionName="CloudWeb" />
+    <SectionOutlet SectionName="CloudWeb" @rendermode="new InteractiveAutoRenderMode(false)" />
+    <HeadOutlet @rendermode="new InteractiveAutoRenderMode(false)" />
 </head>
 
 <body>
-    <Routes />
+    <Routes @rendermode="new InteractiveAutoRenderMode(false)" />
     <script src="_framework/blazor.web.js"></script>
 </body>
 
