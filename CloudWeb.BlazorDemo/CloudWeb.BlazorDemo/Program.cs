@@ -1,5 +1,4 @@
 using AngryMonkey.CloudWeb;
-using CloudWeb.BlazorDemo.Client.Pages;
 using CloudWeb.BlazorDemo.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +8,21 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
-builder.Services.AddScoped<CloudPage>();
+builder.Services.AddCloudWeb(new CloudWebConfig()
+{
+    PageDefaults = new()
+    {
+        Title = "Default Title",
+        Bundles = [
+            new CloudBundle() { Source = "bootstrap/bootstrap.css" },
+            new CloudBundle() { Source = "app.css", MinOnRelease = false },
+            new CloudBundle() { Source = "CloudWeb.BlazorDemo.styles.css", MinOnRelease = false },
+            new CloudBundle() { Source = "bootstrap/bootstrap.css" }
+        ]
+    }
+});
+
+builder.Services.AddScoped(_ => new HttpClient() { BaseAddress = new Uri("https://dsadas.com/") });
 
 var app = builder.Build();
 
@@ -32,7 +45,6 @@ app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
-    .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(Counter).Assembly);
+    .AddInteractiveWebAssemblyRenderMode();
 
 app.Run();

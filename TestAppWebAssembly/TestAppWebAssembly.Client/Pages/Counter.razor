@@ -1,0 +1,32 @@
+﻿@page "/counter"
+@page "/counter/{Test}"
+@page "/counter/{RecordId:guid?}"
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status">Current count: @currentCount</p>
+
+<h2>Query String Content</h2>
+<p>@Test</p>
+
+<h2>Guid</h2>
+<p>@RecordId</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+    private int currentCount = 0;
+
+    [SupplyParameterFromQuery]
+    [Parameter] public string? Test { get; set; }
+
+    [SupplyParameterFromQuery]
+    [Parameter] public Guid? RecordId { get; set; }
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}
