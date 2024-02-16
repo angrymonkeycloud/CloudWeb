@@ -8,6 +8,8 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
+builder.Services.AddMvc();
+
 builder.Services.AddCloudWeb(new CloudWebConfig()
 {
     PageDefaults = new()

@@ -1,25 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Runtime.Serialization.Formatters.Binary;
+﻿using Microsoft.AspNetCore.Http;
 using System.Text;
 
 namespace AngryMonkey.CloudWeb;
 
 public class CloudPage
 {
+    public CloudPage()
+    {
+        IsCrawler = false;
+    }
+
+    public CloudPage(IHttpContextAccessor accessor)
+    {
+        string? userAgeny = accessor.HttpContext?.Request.Headers["User-Agent"].ToString().Trim().ToLower();
+
+        IsCrawler = !string.IsNullOrEmpty(userAgeny) && CloudWebConfig.CrawlersUserAgents.Any(userAgeny.Contains);
+    }
+
     public string? Title { get; set; }
     public List<string> TitleAddOns { get; set; } = [];
     public string? Keywords { get; set; }
     public string? Description { get; set; }
     public bool? IndexPage { get; set; }
     public bool? FollowPage { get; set; }
-    public bool? IsCrawler { get; set; }
     public string? BaseUrl { get; set; }
     public string? Favicon { get; set; }
-    public string? CallingAssemblyName { get; set; } 
+    public string? CallingAssemblyName { get; set; }
     public bool? AutoAppendBlazorStyles { get; set; }
+
+    public bool IsCrawler { get; private set; }
+
     public List<CloudPageFeatures> Features { get; set; } = [];
 
     public List<CloudBundle> Bundles { get; set; } = [];
@@ -125,15 +135,6 @@ public class CloudPage
     public CloudPage SetTitleAddOns(List<string> titleAddOns)
     {
         TitleAddOns = titleAddOns;
-
-        OnModified?.Invoke();
-
-        return this;
-    }
-
-    public CloudPage SetIsCrawler(bool isCrawler)
-    {
-        IsCrawler = isCrawler;
 
         OnModified?.Invoke();
 

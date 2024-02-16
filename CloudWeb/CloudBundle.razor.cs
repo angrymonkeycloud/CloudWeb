@@ -1,10 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using System.Text;
-using System.Security.Cryptography;
 
 namespace AngryMonkey.CloudWeb;
 
@@ -15,23 +9,9 @@ public partial class CloudBundle
     [Parameter] public string? AddOns { get; set; }
     [Parameter] public bool Defer { get; set; } = true;
     [Parameter] public bool Async { get; set; } = false;
+    [Parameter] public bool AppendVersion { get; set; } = true;
 
-    private string BuildVersion => GetHashString(File.GetLastWriteTimeUtc($"wwwroot/{Source}").ToString());
-
-    private static byte[] GetHash(string inputString)
-    {
-        return SHA256.HashData(Encoding.UTF8.GetBytes(inputString));
-    }
-
-    private static string GetHashString(string inputString)
-    {
-        StringBuilder stringBuild = new();
-
-        foreach (byte b in GetHash(inputString))
-            stringBuild.Append(b.ToString("X2"));
-
-        return stringBuild.ToString();
-    }
+    bool IsExternal => Source.StartsWith("http", StringComparison.OrdinalIgnoreCase);
 
     private string? Result
     {
@@ -65,12 +45,8 @@ public partial class CloudBundle
                 source = string.Join('.', sourceSplitted);
             }
 
-            if (!source.StartsWith("http", StringComparison.OrdinalIgnoreCase))
-            {
-                string separator = source.Contains('?') ? "&" : "?";
-
-                source = $"{source}{separator}v={BuildVersion}";
-            }
+            if (!IsExternal && AppendVersion)
+                source = fileVersionProvider.AddFileVersionToPath("/", source);
 
             segments.Add(sourceType == SourceTypes.CSS ? $"href=\"{source}\"" : $"src=\"{source}\"");
 

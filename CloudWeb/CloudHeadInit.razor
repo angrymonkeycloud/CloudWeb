@@ -1,7 +1,9 @@
 ﻿@namespace AngryMonkey.CloudWeb
+@using Microsoft.AspNetCore.Http
 
 @inject CloudWebConfig cloudWeb
-@inject CloudPage CloudPage
+@inject CloudPage _page
+@inject IHttpContextAccessor _accessor
 
 <CloudHead CloudPage="PageConfig" />
 <CloudBundles CloudPage="PageConfig" />
@@ -13,33 +15,32 @@
     {
         get
         {
-            CloudPage ??= new();
+            _page ??= new();
 
             CloudPage config = new()
                 {
                     // Nullable
 
-                    Title = CloudPage.Title,
-                    Keywords = CloudPage.Keywords ?? cloudWeb.PageDefaults.Keywords,
-                    Description = CloudPage.Description ?? cloudWeb.PageDefaults.Description,
-                    TitleAddOns = CloudPage.TitleAddOns ?? cloudWeb.PageDefaults.TitleAddOns,
-                    CallingAssemblyName = CloudPage.CallingAssemblyName ?? cloudWeb.PageDefaults.CallingAssemblyName,
+                    Title = _page.Title,
+                    Keywords = _page.Keywords ?? cloudWeb.PageDefaults.Keywords,
+                    Description = _page.Description ?? cloudWeb.PageDefaults.Description,
+                    TitleAddOns = _page.TitleAddOns ?? cloudWeb.PageDefaults.TitleAddOns,
+                    CallingAssemblyName = _page.CallingAssemblyName ?? cloudWeb.PageDefaults.CallingAssemblyName,
 
                     // Not Nullable
 
-                    Favicon = CloudPage.Favicon ?? cloudWeb.PageDefaults.Favicon ?? "/favicon.ico",
-                    BaseUrl = CloudPage.BaseUrl ?? cloudWeb.PageDefaults.BaseUrl ?? "/",
-                    IndexPage = CloudPage.IndexPage ?? cloudWeb.PageDefaults.IndexPage ?? true,
-                    FollowPage = CloudPage.FollowPage ?? cloudWeb.PageDefaults.FollowPage ?? true,
-                    IsCrawler = CloudPage.IsCrawler ?? cloudWeb.PageDefaults.IsCrawler ?? false,
-                    AutoAppendBlazorStyles = CloudPage.AutoAppendBlazorStyles ?? cloudWeb.PageDefaults.AutoAppendBlazorStyles ?? false,
+                    Favicon = _page.Favicon ?? cloudWeb.PageDefaults.Favicon ?? "/favicon.ico",
+                    BaseUrl = _page.BaseUrl ?? cloudWeb.PageDefaults.BaseUrl ?? "/",
+                    IndexPage = _page.IndexPage ?? cloudWeb.PageDefaults.IndexPage ?? true,
+                    FollowPage = _page.FollowPage ?? cloudWeb.PageDefaults.FollowPage ?? true,
+                    AutoAppendBlazorStyles = _page.AutoAppendBlazorStyles ?? cloudWeb.PageDefaults.AutoAppendBlazorStyles ?? false
                 };
 
             config.Bundles = new(cloudWeb.PageDefaults.Bundles);
-            config.Bundles.AddRange(CloudPage.Bundles);
+            config.Bundles.AddRange(_page.Bundles);
 
             config.Features = new(cloudWeb.PageDefaults.Features);
-            config.Features.AddRange(CloudPage.Features);
+            config.Features.AddRange(_page.Features);
 
             return config;
         }

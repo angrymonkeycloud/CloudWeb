@@ -2,7 +2,7 @@
 @inject CloudPage CloudPage
 @inject HttpClient httpClient
 @{
-    CloudPage.SetTitle("Home");
+    CloudPage.SetTitle($"Home | IsCrawler: {CloudPage.IsCrawler}");
 }
 
 <CloudHeadContent />
@@ -11,13 +11,15 @@
 
 Welcome to your new app.
 
+<div>
+    Is Crawler: @CloudPage.IsCrawler;
+</div>
 @code {
     override protected void OnAfterRender(bool firstRender)
     {
         if (firstRender)
         {
             Console.WriteLine(httpClient);
-            CloudPage.SetTitle("Home");
         }
     }
 }
