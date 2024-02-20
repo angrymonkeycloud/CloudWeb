@@ -12,12 +12,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 public static class CloudPageExtension
 {
-    public static RenderMode GetRenderMode(this CloudPage cloudPage) => cloudPage.BlazorRenderModeResult() switch
-    {
-        CloudPageBlazorRenderModes.Server => RenderMode.ServerPrerendered,
-        CloudPageBlazorRenderModes.WebAssembly => RenderMode.WebAssemblyPrerendered,
-        _ => RenderMode.Static,
-    };
+    public static RenderMode GetRenderMode() => RenderMode.Static;
 
     public static CloudPage Current(ViewDataDictionary viewData)
     {

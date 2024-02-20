@@ -9,17 +9,14 @@ using System.Threading.Tasks;
 
 namespace AngryMonkey.CloudMVC
 {
-    public class CloudController : Controller
+    public class CloudController(CloudPage cloudPage) : Controller
     {
         [NonAction]
         public CloudPage CloudPage(string? title = null)
         {
-            CloudPage cloudPage = new();
-
             if (!string.IsNullOrEmpty(title))
                 cloudPage.SetTitle(title);
 
-            cloudPage.SetIsCrawler(IsCrawler());
             cloudPage.SetCallingAssemblyName(Assembly.GetCallingAssembly().GetName().Name);
 
             string host = Request.Host.Host.ToLower();
@@ -35,7 +32,7 @@ namespace AngryMonkey.CloudMVC
                 cloudPage.SetFollowPage(false);
             }
 
-            cloudPage.OnModified += (object? sender, EventArgs e) => { ViewData["CloudPageStatic"] = cloudPage; };
+            cloudPage.OnModified += () => { ViewData["CloudPageStatic"] = cloudPage; };
 
             ViewData.Add("CloudPageStatic", cloudPage);
 
