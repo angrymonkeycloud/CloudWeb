@@ -10,18 +10,14 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddMvc();
 
-builder.Services.AddCloudWeb(new CloudWebConfig()
+builder.Services.AddCloudWeb(config =>
 {
-    PageDefaults = new()
-    {
-        Title = "Default Title",
-        Bundles = [
-            new CloudBundle() { Source = "bootstrap/bootstrap.css" },
+    config.PageDefaults.SetTitle("Default Title");
+    config.PageDefaults.AppendBundles(
+         new CloudBundle() { Source = "bootstrap/bootstrap.css" },
             new CloudBundle() { Source = "app.css", MinOnRelease = false },
             new CloudBundle() { Source = "CloudWeb.BlazorDemo.styles.css", MinOnRelease = false },
-            new CloudBundle() { Source = "bootstrap/bootstrap.css" }
-        ]
-    }
+            new CloudBundle() { Source = "bootstrap/bootstrap.css" });
 });
 
 builder.Services.AddScoped(_ => new HttpClient() { BaseAddress = new Uri("https://dsadas.com/") });

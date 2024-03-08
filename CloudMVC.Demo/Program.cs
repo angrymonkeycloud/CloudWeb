@@ -6,25 +6,14 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
-builder.Services.AddCloudWeb(new()
+builder.Services.AddCloudWeb(config =>
 {
-    PageDefaults = new()
-    {
-        Title = "MVC Website Demo",
-        AutoAppendBlazorStyles = false,
-        Bundles =
-        [
-            new CloudBundle(){ Source = "/css/site.css"}
-        ],
-        TitleAddOns =
-        [
-            "Adon Tst",
-            "dsa"
-        ]
-    },
-    TitlePrefix = "Pre - ",
-    TitleSuffix = " - Suffix"
-
+    config.PageDefaults.SetTitle("Default Title");
+    config.PageDefaults.AppendBundles(
+         new CloudBundle() { Source = "bootstrap/bootstrap.css" },
+            new CloudBundle() { Source = "app.css", MinOnRelease = false },
+            new CloudBundle() { Source = "CloudWeb.BlazorDemo.styles.css", MinOnRelease = false },
+            new CloudBundle() { Source = "bootstrap/bootstrap.css" });
 });
 
 var app = builder.Build();

@@ -1,4 +1,7 @@
-﻿@inject IFileVersionProvider fileVersionProvider
+﻿@using Microsoft.Extensions.Options
+
+@inject IFileVersionProvider fileVersionProvider
+@inject IOptionsSnapshot<CloudWebConfig> cloudWeb
 
 @namespace AngryMonkey.CloudWeb
 

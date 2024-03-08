@@ -1,9 +1,9 @@
 ﻿@namespace AngryMonkey.CloudWeb
 @using Microsoft.AspNetCore.Http
+@using Microsoft.Extensions.Options
 
-@inject CloudWebConfig cloudWeb
+@inject IOptionsSnapshot<CloudWebConfig> cloudWeb
 @inject CloudPage _page
-@inject IHttpContextAccessor _accessor
 
 <CloudHead CloudPage="PageConfig" />
 <CloudBundles CloudPage="PageConfig" />
@@ -22,27 +22,32 @@
                     // Nullable
 
                     Title = _page.Title,
-                    Keywords = _page.Keywords ?? cloudWeb.PageDefaults.Keywords,
-                    Description = _page.Description ?? cloudWeb.PageDefaults.Description,
-                    TitleAddOns = _page.TitleAddOns ?? cloudWeb.PageDefaults.TitleAddOns,
-                    CallingAssemblyName = _page.CallingAssemblyName ?? cloudWeb.PageDefaults.CallingAssemblyName,
+                    Keywords = _page.Keywords ?? cloudWeb.Value.PageDefaults.Keywords,
+                    Description = _page.Description ?? cloudWeb.Value.PageDefaults.Description,
+                    CallingAssemblyName = _page.CallingAssemblyName ?? cloudWeb.Value.PageDefaults.CallingAssemblyName,
 
                     // Not Nullable
 
-                    Favicon = _page.Favicon ?? cloudWeb.PageDefaults.Favicon ?? "/favicon.ico",
-                    BaseUrl = _page.BaseUrl ?? cloudWeb.PageDefaults.BaseUrl ?? "/",
-                    IndexPage = _page.IndexPage ?? cloudWeb.PageDefaults.IndexPage ?? true,
-                    FollowPage = _page.FollowPage ?? cloudWeb.PageDefaults.FollowPage ?? true,
-                    AutoAppendBlazorStyles = _page.AutoAppendBlazorStyles ?? cloudWeb.PageDefaults.AutoAppendBlazorStyles ?? false
+                    Favicon = _page.Favicon ?? cloudWeb.Value.PageDefaults.Favicon ?? "/favicon.ico",
+                    IndexPage = _page.IndexPage ?? cloudWeb.Value.PageDefaults.IndexPage ?? true,
+                    FollowPage = _page.FollowPage ?? cloudWeb.Value.PageDefaults.FollowPage ?? true,
+                    AutoAppendBlazorStyles = _page.AutoAppendBlazorStyles ?? cloudWeb.Value.PageDefaults.AutoAppendBlazorStyles ?? false
                 };
 
-            config.Bundles = new(cloudWeb.PageDefaults.Bundles);
-            config.Bundles.AddRange(_page.Bundles);
+            config.SetTitleAddOns(_page.TitleAddOns ?? cloudWeb.Value.PageDefaults.TitleAddOns);
 
-            config.Features = new(cloudWeb.PageDefaults.Features);
-            config.Features.AddRange(_page.Features);
+            config._bundles.Clear();
+            config._bundles.AddRange(cloudWeb.Value.PageDefaults.Bundles);
+            config._bundles.AddRange(_page.Bundles);
+
+
+            config._features.Clear();
+            config._features.AddRange(cloudWeb.Value.PageDefaults.Features);
+            config._features.AddRange(_page.Features);
 
             return config;
         }
     }
+
+    protected override void OnInitialized() => PageConfig.OnModified += () => { StateHasChanged(); };
 }

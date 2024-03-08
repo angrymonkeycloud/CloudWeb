@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace AngryMonkey.CloudWeb;
@@ -17,43 +18,52 @@ public class CloudPage
         IsCrawler = !string.IsNullOrEmpty(userAgeny) && CloudWebConfig.CrawlersUserAgents.Any(userAgeny.Contains);
     }
 
-    public string? Title { get; set; }
-    public List<string> TitleAddOns { get; set; } = [];
-    public string? Keywords { get; set; }
-    public string? Description { get; set; }
-    public bool? IndexPage { get; set; }
-    public bool? FollowPage { get; set; }
-    public string? BaseUrl { get; set; }
-    public string? Favicon { get; set; }
-    public string? CallingAssemblyName { get; set; }
-    public bool? AutoAppendBlazorStyles { get; set; }
+    public string? Title { get; internal set; }
+    public string? Keywords { get; internal set; }
+    public string? Description { get; internal set; }
+    public bool? IndexPage { get; internal set; }
+    public bool? FollowPage { get; internal set; }
+    public string? Favicon { get; internal set; }
+    public string? CallingAssemblyName { get; internal set; }
+    public bool? AutoAppendBlazorStyles { get; internal set; }
 
-    public bool IsCrawler { get; private set; }
+    public bool IsCrawler { get; internal set; }
 
-    public List<CloudPageFeatures> Features { get; set; } = [];
+    internal readonly List<string> _titleAddOns = [];
+    public ReadOnlyCollection<string> TitleAddOns => _titleAddOns.AsReadOnly();
 
-    public List<CloudBundle> Bundles { get; set; } = [];
+    internal readonly List<CloudPageFeatures> _features = [];
+    public ReadOnlyCollection<CloudPageFeatures> Features => _features.AsReadOnly();
+
+    internal readonly List<CloudBundle> _bundles = [];
+    public ReadOnlyCollection<CloudBundle> Bundles => _bundles.AsReadOnly();
 
     public event Action? OnModified;
 
-    public CloudPage AppendBundle(CloudBundle? bundle)
+    public CloudPage AppendBundle(CloudBundle bundle) => AppendBundles(bundle);
+
+    public CloudPage AppendBundles(params CloudBundle[]? bundles)
     {
-        if (bundle == null)
+        if (bundles == null)
             return this;
 
-        Bundles.Add(bundle);
+        foreach (CloudBundle bundle in bundles)
+            _bundles.Add(bundle);
 
         OnModified?.Invoke();
 
         return this;
     }
 
-    public CloudPage AppendBundle(string? bundleSource)
+    public CloudPage AppendBundle(string bundle) => AppendBundles(bundle);
+
+    public CloudPage AppendBundles(params string[]? bundles)
     {
-        if (string.IsNullOrEmpty(bundleSource))
+        if (bundles == null)
             return this;
 
-        Bundles.Add(new CloudBundle() { Source = bundleSource });
+        foreach (string bundle in bundles)
+            _bundles.Add(new CloudBundle() { Source = bundle });
 
         OnModified?.Invoke();
 
@@ -72,15 +82,6 @@ public class CloudPage
     public CloudPage SetFavicon(string path)
     {
         Favicon = path;
-
-        OnModified?.Invoke();
-
-        return this;
-    }
-
-    public CloudPage SetBaseUrl(string baseUrl)
-    {
-        BaseUrl = baseUrl;
 
         OnModified?.Invoke();
 
@@ -132,18 +133,21 @@ public class CloudPage
         return this;
     }
 
-    public CloudPage SetTitleAddOns(List<string> titleAddOns)
+    public CloudPage SetTitleAddOns(IEnumerable<string> titleAddOns)
     {
-        TitleAddOns = titleAddOns;
+        _titleAddOns.Clear();
+        _titleAddOns.AddRange(titleAddOns);
 
         OnModified?.Invoke();
 
         return this;
     }
 
+    public CloudPage AddFeature(CloudPageFeatures feature) => AddFeatures(feature);
+
     public CloudPage AddFeatures(params CloudPageFeatures[] features)
     {
-        Features.AddRange(features);
+        _features.AddRange(features);
 
         OnModified?.Invoke();
 
@@ -175,7 +179,7 @@ public class CloudPage
         else
             titleBuilder.Append($"{cloudWeb.TitlePrefix}{Title}{cloudWeb.TitleSuffix}");
 
-        List<string> addOns = cloudWeb.PageDefaults.TitleAddOns;
+        List<string> addOns = cloudWeb.PageDefaults._titleAddOns;
         addOns.AddRange(TitleAddOns);
 
         if (addOns.Any())

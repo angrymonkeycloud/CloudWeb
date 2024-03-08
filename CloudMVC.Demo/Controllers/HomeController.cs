@@ -5,17 +5,15 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace CloudMVC.Demo.Controllers
 {
-    public class HomeController : CloudController
+    public class HomeController(CloudPage cloudPage) : CloudController(cloudPage)
     {
         public IActionResult Index()
         {
-            CloudPage()
-                .SetIsCrawler(IsCrawler())
-                .SetDescription("Test Description")
-                .SetBlazor(CloudPageBlazorRenderModes.Server);
+            CloudPage(string.Empty);
 
             return View();
         }

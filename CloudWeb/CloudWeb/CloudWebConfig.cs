@@ -4,9 +4,10 @@ public class CloudWebConfig
 {
     public CloudPage PageDefaults { get; set; } = new();
     public string TitlePrefix { get; set; } = string.Empty;
+    public string? StaticFilesBaseDirectory { get; set; }
     public string TitleSuffix { get; set; } = string.Empty;
-    public static string[] CrawlersUserAgents { get; } = new[]
-    {
+    public static string[] CrawlersUserAgents { get; } =
+    [
         "bot","crawler","spider","80legs","baidu","yahoo! slurp","ia_archiver","mediapartners-google",
         "lwp-trivial","nederland.zoek","ahoy","anthill","appie","arale","araneo","ariadne",
         "atn_worldwide","atomz","bjaaland","ukonline","calif","combine","cosmos","cusco",
@@ -46,5 +47,5 @@ public class CloudWebConfig
         "BlogRefsBot","BlogScope","Blogslive","Blogvani bot","bloobybot","BlowFish","BlowFish","BlowFish","BlowFish","BlowFish",
         "BLT","bnf.fr_bot","boitho.com-dc","Boitho.com-robot","Booster","Bot Apoena","BotALot","botao","BOTW Spider","bRAT",
         "Browsershots","BSDSeek","BTbot","BuiltBotTough",
-    };
+    ];
 }

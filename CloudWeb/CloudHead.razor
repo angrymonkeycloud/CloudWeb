@@ -1,8 +1,9 @@
 ﻿@namespace AngryMonkey.CloudWeb
+@using Microsoft.Extensions.Options
 
-@inject CloudWebConfig cloudWeb
+@inject IOptionsSnapshot<CloudWebConfig> cloudWeb
 @{
-    string? title = CloudPage.TitleResult(cloudWeb);
+    string? title = CloudPage.TitleResult(cloudWeb.Value);
     string? keywords = CloudPage.KeywordsResult();
     string? description = CloudPage.DescriptionResult();
     string? robots = CloudPage.RobotsResult();
@@ -15,8 +16,7 @@
 }
 
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<base href="@CloudPage.BaseUrl" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 @if (!string.IsNullOrEmpty(favicon))
 {

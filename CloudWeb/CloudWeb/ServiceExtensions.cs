@@ -1,17 +1,21 @@
 ﻿using AngryMonkey.CloudWeb;
+using Microsoft.Extensions.Options;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
 public static class MvcServiceCollectionExtensions
 {
-    public static CloudWebConfig AddCloudWeb(this IServiceCollection services, CloudWebConfig defaultConfig)
+    public static IServiceCollection AddCloudWeb(this IServiceCollection services, Action<CloudWebConfig> defaultConfig)
     {
-        services.AddSingleton(defaultConfig);
+        ArgumentNullException.ThrowIfNull(services);
+        ArgumentNullException.ThrowIfNull(defaultConfig);
+        
+        services.Configure(defaultConfig);
 
         services.AddHttpContextAccessor();
 
         services.AddScoped<CloudPage>();
 
-        return defaultConfig;
+        return services;
     }
 }

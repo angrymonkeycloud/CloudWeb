@@ -46,7 +46,15 @@ public partial class CloudBundle
             }
 
             if (!IsExternal && AppendVersion)
+            {
+                if (!string.IsNullOrEmpty(cloudWeb.Value.StaticFilesBaseDirectory))
+                    source = source.Replace($"{cloudWeb.Value.StaticFilesBaseDirectory.Trim('/')}/", string.Empty);
+
                 source = fileVersionProvider.AddFileVersionToPath("/", source);
+
+                if (!string.IsNullOrEmpty(cloudWeb.Value.StaticFilesBaseDirectory))
+                    source = $"{cloudWeb.Value.StaticFilesBaseDirectory}/{source}";
+            }
 
             segments.Add(sourceType == SourceTypes.CSS ? $"href=\"{source}\"" : $"src=\"{source}\"");
 
