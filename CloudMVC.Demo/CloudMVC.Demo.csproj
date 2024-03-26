@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CloudMVC\CloudMVC.csproj" />
+    <ProjectReference Include="..\CloudMVC\CloudWeb.Server.csproj" />
   </ItemGroup>
 
 </Project>

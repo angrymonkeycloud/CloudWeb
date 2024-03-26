@@ -6,8 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <Version>2.1.2</Version>
-		<AssemblyName>AngryMonkey.CloudWeb.MVC</AssemblyName>
-		<RootNamespace>AngryMonkey.CloudWeb.CloudMVC</RootNamespace>
+		<AssemblyName>AngryMonkey.CloudWeb.Server</AssemblyName>
+		<RootNamespace>AngryMonkey.CloudWeb.Server</RootNamespace>
 
 		<AssemblyVersion>$(PackageVersion)</AssemblyVersion>
 		<FileVersion>$(PackageVersion)</FileVersion>

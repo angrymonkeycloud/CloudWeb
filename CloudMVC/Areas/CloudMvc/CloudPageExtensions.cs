@@ -1,13 +1,5 @@
 ﻿using AngryMonkey.CloudWeb;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 public static class CloudPageExtension

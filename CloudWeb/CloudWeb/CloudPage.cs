@@ -13,9 +13,25 @@ public class CloudPage
 
     public CloudPage(IHttpContextAccessor accessor)
     {
+        // Crawler
+
         string? userAgeny = accessor.HttpContext?.Request.Headers["User-Agent"].ToString().Trim().ToLower();
 
         IsCrawler = !string.IsNullOrEmpty(userAgeny) && CloudWebConfig.CrawlersUserAgents.Any(userAgeny.Contains);
+
+        // None Production
+        string? host = accessor.HttpContext?.Request.Host.Host.ToLower();
+
+        if (!string.IsNullOrEmpty(host))
+        {
+            string[] robotsBlockUrls = ["azurewebsites.net"];
+
+            if (robotsBlockUrls.Any(host.EndsWith))
+            {
+                SetIndexPage(false);
+                SetFollowPage(false);
+            }
+        }
     }
 
     public string? Title { get; internal set; }

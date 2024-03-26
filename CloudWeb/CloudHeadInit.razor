@@ -4,6 +4,7 @@
 
 @inject IOptionsSnapshot<CloudWebConfig> cloudWeb
 @inject CloudPage _page
+@inject IHttpContextAccessor _accessor
 
 <CloudHead CloudPage="PageConfig" />
 <CloudBundles CloudPage="PageConfig" />
@@ -15,9 +16,9 @@
     {
         get
         {
-            _page ??= new();
+            _page ??= new(_accessor);
 
-            CloudPage config = new()
+            CloudPage config = new(_accessor)
                 {
                     // Nullable
 

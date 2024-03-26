@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Source", "Source\Source.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudWeb", "CloudWeb\CloudWeb.csproj", "{5BFEEFE5-F3A9-4DE7-BB7D-57B4ABB62470}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudMVC", "CloudMVC\CloudMVC.csproj", "{50A20C83-41C1-4C35-AC2F-E5DE95351659}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudWeb.Server", "CloudMVC\CloudWeb.Server.csproj", "{50A20C83-41C1-4C35-AC2F-E5DE95351659}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudMVC.Demo", "CloudMVC.Demo\CloudMVC.Demo.csproj", "{5D49E5C7-F27E-4896-98A3-B3C8801CCEA2}"
 EndProject
@@ -19,9 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApp", "TestApp\TestApp\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApp.Client", "TestApp\TestApp.Client\TestApp.Client.csproj", "{43F6A4F1-9A47-4FEC-A4B2-E112DC307589}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAppWebAssembly", "TestAppWebAssembly\TestAppWebAssembly\TestAppWebAssembly.csproj", "{CCE3763E-C8D6-4AF3-A129-35824BB69972}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestAppWebAssembly", "TestAppWebAssembly\TestAppWebAssembly\TestAppWebAssembly.csproj", "{CCE3763E-C8D6-4AF3-A129-35824BB69972}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAppWebAssembly.Client", "TestAppWebAssembly\TestAppWebAssembly.Client\TestAppWebAssembly.Client.csproj", "{0F494BD4-0FA6-4BB5-90CE-0651D2B122D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestAppWebAssembly.Client", "TestAppWebAssembly\TestAppWebAssembly.Client\TestAppWebAssembly.Client.csproj", "{0F494BD4-0FA6-4BB5-90CE-0651D2B122D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
