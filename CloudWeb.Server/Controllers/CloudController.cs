@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Reflection;
 
-namespace AngryMonkey.CloudWeb.Server;
+namespace AngryMonkey.CloudWeb;
 
 public class CloudController(CloudPage cloudPage) : Controller
 {
@@ -10,8 +9,6 @@ public class CloudController(CloudPage cloudPage) : Controller
     {
         if (!string.IsNullOrEmpty(title))
             cloudPage.SetTitle(title);
-
-        cloudPage.SetCallingAssemblyName(Assembly.GetCallingAssembly().GetName().Name);
 
         string host = Request.Host.Host.ToLower();
 

@@ -16,20 +16,18 @@
     <script suppress-error="BL9992" src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
 }
 
-@if (CloudPage.AutoAppendBlazorStyles ?? false)
+@if (CloudPage.AddLegacyExportsCreation)
 {
-    <link href="@($"{CloudPage.CallingAssemblyName}.styles.css")" rel="stylesheet">
+    <script suppress-error="BL9992">var exports = {};</script>
 }
-
-<script suppress-error="BL9992">var exports = {};</script>
 
 @foreach (CloudBundle bundle in CloudPage.Bundles)
 {
     <CloudBundle Source="@bundle.Source"
-             MinOnRelease="bundle.MinOnRelease"
-             Async="bundle.Async"
-             Defer="bundle.Defer"
-             AddOns="@bundle.AddOns" />
+                 MinOnRelease="bundle.MinOnRelease"
+                 Async="bundle.Async"
+                 Defer="bundle.Defer"
+                 AddOns="@bundle.AddOns" />
 }
 
 @code {

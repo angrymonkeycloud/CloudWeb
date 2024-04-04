@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 public static class CloudPageExtension
 {
-    public static RenderMode GetRenderMode() => RenderMode.Static;
-
     public static CloudPage Current(ViewDataDictionary viewData)
     {
         object? obj = viewData["CloudPageStatic"];

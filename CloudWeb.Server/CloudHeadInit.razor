@@ -25,14 +25,12 @@
                     Title = _page.Title,
                     Keywords = _page.Keywords ?? cloudWeb.Value.PageDefaults.Keywords,
                     Description = _page.Description ?? cloudWeb.Value.PageDefaults.Description,
-                    CallingAssemblyName = _page.CallingAssemblyName ?? cloudWeb.Value.PageDefaults.CallingAssemblyName,
 
                     // Not Nullable
 
                     Favicon = _page.Favicon ?? cloudWeb.Value.PageDefaults.Favicon ?? "/favicon.ico",
                     IndexPage = _page.IndexPage ?? cloudWeb.Value.PageDefaults.IndexPage ?? true,
                     FollowPage = _page.FollowPage ?? cloudWeb.Value.PageDefaults.FollowPage ?? true,
-                    AutoAppendBlazorStyles = _page.AutoAppendBlazorStyles ?? cloudWeb.Value.PageDefaults.AutoAppendBlazorStyles ?? false
                 };
 
             config.SetTitleAddOns(_page.TitleAddOns ?? cloudWeb.Value.PageDefaults.TitleAddOns);

@@ -5,10 +5,10 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-		<Version>2.1.2</Version>
+		<Version>2.2.4</Version>
 		<AssemblyVersion>$(PackageVersion)</AssemblyVersion>
 		<FileVersion>$(PackageVersion)</FileVersion>
-		<AssemblyName>AngryMonkey.CloudWeb</AssemblyName>
+		<AssemblyName>AngryMonkey.CloudWeb.Server</AssemblyName>
 		<RootNamespace>AngryMonkey.CloudWeb</RootNamespace>
 		<PackageOutputPath>..\NugetPackages\</PackageOutputPath>
 		<PackageIcon>AngryMonkeyCloudLogo-64x64.png</PackageIcon>
@@ -24,10 +24,9 @@
 			<PackagePath>\</PackagePath>
 		</None>
 	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
-	</ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.3" />
+  </ItemGroup>
 
 </Project>

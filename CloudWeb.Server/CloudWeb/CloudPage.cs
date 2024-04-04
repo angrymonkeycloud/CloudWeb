@@ -40,8 +40,8 @@ public class CloudPage
     public bool? IndexPage { get; internal set; }
     public bool? FollowPage { get; internal set; }
     public string? Favicon { get; internal set; }
-    public string? CallingAssemblyName { get; internal set; }
-    public bool? AutoAppendBlazorStyles { get; internal set; }
+
+    public bool AddLegacyExportsCreation { get; internal set; } = false;
 
     public bool IsCrawler { get; internal set; }
 
@@ -55,6 +55,15 @@ public class CloudPage
     public ReadOnlyCollection<CloudBundle> Bundles => _bundles.AsReadOnly();
 
     public event Action? OnModified;
+
+    public CloudPage InsertBundle(int index, CloudBundle bundle)
+    {
+        _bundles.Insert(index, bundle);
+
+        OnModified?.Invoke();
+
+        return this;
+    }
 
     public CloudPage AppendBundle(CloudBundle bundle) => AppendBundles(bundle);
 
@@ -104,15 +113,6 @@ public class CloudPage
         return this;
     }
 
-    public CloudPage SetCallingAssemblyName(string? callingAssemblyName)
-    {
-        CallingAssemblyName = callingAssemblyName;
-
-        OnModified?.Invoke();
-
-        return this;
-    }
-
     public CloudPage SetKeywords(string keywords)
     {
         Keywords = keywords;
@@ -153,6 +153,15 @@ public class CloudPage
     {
         _titleAddOns.Clear();
         _titleAddOns.AddRange(titleAddOns);
+
+        OnModified?.Invoke();
+
+        return this;
+    }
+
+    public CloudPage SetAddLegacyExportsCreation(bool addLegacyExportsCreation)
+    {
+        AddLegacyExportsCreation = addLegacyExportsCreation;
 
         OnModified?.Invoke();
 

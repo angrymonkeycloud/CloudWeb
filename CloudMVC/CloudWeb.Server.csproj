@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-    <Version>2.1.2</Version>
+    <Version>2.2.4</Version>
 		<AssemblyName>AngryMonkey.CloudWeb.Server</AssemblyName>
 		<RootNamespace>AngryMonkey.CloudWeb.Server</RootNamespace>
 
@@ -33,5 +33,9 @@
 	<ItemGroup>
     <ProjectReference Include="..\CloudWeb\CloudWeb.csproj" />
   </ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Areas\CloudMvc\" />
+	</ItemGroup>
 
 </Project>

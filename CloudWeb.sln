@@ -5,10 +5,6 @@ VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Source", "Source\Source.csproj", "{4039A06C-8B5F-4F7E-A765-5C085015EDB5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudWeb", "CloudWeb\CloudWeb.csproj", "{5BFEEFE5-F3A9-4DE7-BB7D-57B4ABB62470}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudWeb.Server", "CloudMVC\CloudWeb.Server.csproj", "{50A20C83-41C1-4C35-AC2F-E5DE95351659}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudMVC.Demo", "CloudMVC.Demo\CloudMVC.Demo.csproj", "{5D49E5C7-F27E-4896-98A3-B3C8801CCEA2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{1B2E0F7F-A337-4703-9C2D-4D1E616E3E8B}"
@@ -23,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestAppWebAssembly", "TestA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestAppWebAssembly.Client", "TestAppWebAssembly\TestAppWebAssembly.Client\TestAppWebAssembly.Client.csproj", "{0F494BD4-0FA6-4BB5-90CE-0651D2B122D0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudWeb.Server", "CloudWeb.Server\CloudWeb.Server.csproj", "{69311C88-7BCD-43C5-84CA-B65EB8490515}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,14 +31,6 @@ Global
 		{4039A06C-8B5F-4F7E-A765-5C085015EDB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4039A06C-8B5F-4F7E-A765-5C085015EDB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4039A06C-8B5F-4F7E-A765-5C085015EDB5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5BFEEFE5-F3A9-4DE7-BB7D-57B4ABB62470}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5BFEEFE5-F3A9-4DE7-BB7D-57B4ABB62470}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5BFEEFE5-F3A9-4DE7-BB7D-57B4ABB62470}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5BFEEFE5-F3A9-4DE7-BB7D-57B4ABB62470}.Release|Any CPU.Build.0 = Release|Any CPU
-		{50A20C83-41C1-4C35-AC2F-E5DE95351659}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{50A20C83-41C1-4C35-AC2F-E5DE95351659}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{50A20C83-41C1-4C35-AC2F-E5DE95351659}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{50A20C83-41C1-4C35-AC2F-E5DE95351659}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5D49E5C7-F27E-4896-98A3-B3C8801CCEA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5D49E5C7-F27E-4896-98A3-B3C8801CCEA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D49E5C7-F27E-4896-98A3-B3C8801CCEA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -65,13 +55,16 @@ Global
 		{0F494BD4-0FA6-4BB5-90CE-0651D2B122D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F494BD4-0FA6-4BB5-90CE-0651D2B122D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F494BD4-0FA6-4BB5-90CE-0651D2B122D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69311C88-7BCD-43C5-84CA-B65EB8490515}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69311C88-7BCD-43C5-84CA-B65EB8490515}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69311C88-7BCD-43C5-84CA-B65EB8490515}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69311C88-7BCD-43C5-84CA-B65EB8490515}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{5BFEEFE5-F3A9-4DE7-BB7D-57B4ABB62470} = {1B2E0F7F-A337-4703-9C2D-4D1E616E3E8B}
-		{50A20C83-41C1-4C35-AC2F-E5DE95351659} = {1B2E0F7F-A337-4703-9C2D-4D1E616E3E8B}
+		{69311C88-7BCD-43C5-84CA-B65EB8490515} = {1B2E0F7F-A337-4703-9C2D-4D1E616E3E8B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9F5B754A-A22A-498B-B424-99525E303428}
