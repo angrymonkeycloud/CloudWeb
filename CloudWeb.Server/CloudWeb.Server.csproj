@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-		<Version>2.2.4</Version>
+		<Version>2.2.5</Version>
 		<AssemblyVersion>$(PackageVersion)</AssemblyVersion>
 		<FileVersion>$(PackageVersion)</FileVersion>
 		<AssemblyName>AngryMonkey.CloudWeb.Server</AssemblyName>

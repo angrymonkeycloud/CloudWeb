@@ -25,10 +25,11 @@
                     Title = _page.Title,
                     Keywords = _page.Keywords ?? cloudWeb.Value.PageDefaults.Keywords,
                     Description = _page.Description ?? cloudWeb.Value.PageDefaults.Description,
+                    AddLegacyExportsCreation = _page.AddLegacyExportsCreation ?? cloudWeb.Value.PageDefaults.AddLegacyExportsCreation,
 
                     // Not Nullable
 
-                    Favicon = _page.Favicon ?? cloudWeb.Value.PageDefaults.Favicon ?? "/favicon.ico",
+                    Favicon = _page.Favicon ?? cloudWeb.Value.PageDefaults.Favicon,
                     IndexPage = _page.IndexPage ?? cloudWeb.Value.PageDefaults.IndexPage ?? true,
                     FollowPage = _page.FollowPage ?? cloudWeb.Value.PageDefaults.FollowPage ?? true,
                 };

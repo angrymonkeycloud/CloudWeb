@@ -41,7 +41,7 @@ public class CloudPage
     public bool? FollowPage { get; internal set; }
     public string? Favicon { get; internal set; }
 
-    public bool AddLegacyExportsCreation { get; internal set; } = false;
+    public bool? AddLegacyExportsCreation { get; internal set; }
 
     public bool IsCrawler { get; internal set; }
 
