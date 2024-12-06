@@ -88,8 +88,6 @@ public partial class CloudBundle
         {
             List<string> segments = [];
 
-            segments.Add("test");
-
             if (SourceType == SourceTypes.JS)
             {
                 if (Defer)
