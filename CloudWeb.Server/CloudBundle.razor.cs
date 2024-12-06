@@ -10,6 +10,9 @@ public partial class CloudBundle
     [Parameter] public bool Defer { get; set; } = true;
     [Parameter] public bool Async { get; set; } = false;
     [Parameter] public bool AppendVersion { get; set; } = true;
+    [Parameter] public bool UseMapping { get; set; } = true;
+
+    protected SourceTypes? SourceType { get; set; }
 
     bool IsExternal => Source.StartsWith("http", StringComparison.OrdinalIgnoreCase);
 
@@ -20,57 +23,23 @@ public partial class CloudBundle
             if (string.IsNullOrEmpty(Source) || !Source.Contains('.'))
                 return null;
 
-            SourceTypes? sourceType = Source.Split('.').Last().Trim().ToLower() switch
+            SourceType = Source.Split('.').Last().Trim().ToLower() switch
             {
                 "css" => SourceTypes.CSS,
                 "js" => SourceTypes.JS,
                 _ => null,
             };
 
-            if (sourceType == null)
+            if (SourceType == null)
                 return null;
 
-            List<string> segments =
-                [
-                    sourceType == SourceTypes.CSS ? "<link" : "<script"
-                ];
+            List<string> segments = [SourceType == SourceTypes.CSS ? "<link" : "<script"];
 
-            string source = Source;
+            segments.Add(SourceType == SourceTypes.CSS ? $"href=\"{SourceResult}\"" : $"src=\"{SourceResult}\"");
 
-            if (MinOnRelease && !source.Contains(".min.", StringComparison.OrdinalIgnoreCase))
-            {
-                List<string> sourceSplitted = Source.Split('.').ToList();
+            segments.AddRange(AdditionalResult);
 
-                sourceSplitted.Insert(sourceSplitted.Count - 1, "min");
-                source = string.Join('.', sourceSplitted);
-            }
-
-            if (!IsExternal && AppendVersion)
-            {
-                if (!string.IsNullOrEmpty(cloudWeb.Value.StaticFilesBaseDirectory))
-                    source = source.Replace($"{cloudWeb.Value.StaticFilesBaseDirectory.Trim('/')}/", string.Empty);
-
-                source = fileVersionProvider.AddFileVersionToPath("/", source);
-
-                if (!string.IsNullOrEmpty(cloudWeb.Value.StaticFilesBaseDirectory))
-                    source = $"{cloudWeb.Value.StaticFilesBaseDirectory}/{source}";
-            }
-
-            segments.Add(sourceType == SourceTypes.CSS ? $"href=\"{source}\"" : $"src=\"{source}\"");
-
-            if (sourceType == SourceTypes.JS)
-            {
-                if (Defer)
-                    segments.Add("defer");
-
-                if (Async)
-                    segments.Add("async");
-            }
-
-            if (!string.IsNullOrEmpty(AddOns))
-                segments.Add(AddOns);
-
-            segments.Add(sourceType == SourceTypes.CSS ? "rel=\"stylesheet\">" : "></script>");
+            segments.Add(SourceType == SourceTypes.CSS ? "rel=\"stylesheet\">" : "></script>");
 
             return string.Join(" ", segments);
 
@@ -83,7 +52,61 @@ public partial class CloudBundle
         }
     }
 
-    private enum SourceTypes
+    protected string SourceResult
+    {
+        get
+        {
+            string source = Source;
+
+            if (MinOnRelease && !source.Contains(".min.", StringComparison.OrdinalIgnoreCase))
+            {
+                List<string> sourceSplitted = [.. Source.Split('.')];
+
+                sourceSplitted.Insert(sourceSplitted.Count - 1, "min");
+                source = string.Join('.', sourceSplitted);
+            }
+
+            if (!IsExternal && AppendVersion && !UseMapping)
+            {
+                if (!string.IsNullOrEmpty(cloudWeb.Value.StaticFilesBaseDirectory))
+                    source = source.Replace($"{cloudWeb.Value.StaticFilesBaseDirectory.Trim('/')}/", string.Empty);
+
+                source = fileVersionProvider.AddFileVersionToPath("/", source);
+
+                if (!string.IsNullOrEmpty(cloudWeb.Value.StaticFilesBaseDirectory))
+                    source = $"{cloudWeb.Value.StaticFilesBaseDirectory}/{source}";
+            }
+            else if (AppendVersion) source = Assets[source];
+
+            return source;
+        }
+    }
+
+    protected List<string> AdditionalResult
+    {
+        get
+        {
+            List<string> segments = [];
+
+            segments.Add("test");
+
+            if (SourceType == SourceTypes.JS)
+            {
+                if (Defer)
+                    segments.Add("defer");
+
+                if (Async)
+                    segments.Add("async");
+            }
+
+            if (!string.IsNullOrEmpty(AddOns))
+                segments.Add(AddOns);
+
+            return segments;
+        }
+    }
+
+    protected enum SourceTypes
     {
         JS,
         CSS,
