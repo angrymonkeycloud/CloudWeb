@@ -47,23 +47,9 @@
 		},
 		{
 			"input": [
-				"src/cloud/main.ts",
-				"src/cloud/string.ts",
-				"src/cloud/methods.ts"
+				"src/interop.js"
 			],
-			"output": "cloud-base.js",
-			"builds": [ "dist" ]
-		},
-		{
-			"input": [
-				"src/popup.ts",
-				"src/message.ts",
-				"src/sidebar.ts",
-				"src/siema.js",
-				"src/carousel.ts",
-				"src/datetimepicker.js"
-			],
-			"output": "cloud-components.js",
+			"output": "interop.js",
 			"builds": [ "dist" ]
 		},
 		{

@@ -148,3 +148,21 @@ samp {
     font-family: monospace;
     font-size: 1rem;
 }
+
+html:has(.--popup) {
+    overflow: hidden !important;
+
+    .--popup {
+        position: fixed;
+        display: flex;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        margin: 0;
+        z-index: 9999;
+        background-color: rgba(0, 0, 0, 0.8);
+        justify-content: center;
+        align-items: center;
+    }
+}
