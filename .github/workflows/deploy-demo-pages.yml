@@ -47,6 +47,25 @@ jobs:
       - name: Prepare GitHub Pages assets
         shell: bash
         run: |
+          mkdir -p publish/wwwroot
+
+          if [[ ! -f publish/wwwroot/index.html ]]; then
+            cat > publish/wwwroot/index.html <<'EOF'
+          <!doctype html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>CloudWeb Demo</title>
+          </head>
+          <body>
+            <h1>CloudWeb Demo</h1>
+            <p>This demo requires an ASP.NET Core server host and cannot run directly on GitHub Pages.</p>
+          </body>
+          </html>
+          EOF
+          fi
+
           cp publish/wwwroot/index.html publish/wwwroot/404.html
 
           cat > /tmp/gh-pages-index-snippet.html <<'EOF'
