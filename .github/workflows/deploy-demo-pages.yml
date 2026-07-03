@@ -41,83 +41,51 @@ jobs:
       - name: Run tests
         run: dotnet test CloudWeb.Tests/CloudWeb.Tests.csproj -c Release --no-restore
 
-      - name: Publish demo
+      - name: Publish demo server
         run: dotnet publish CloudWeb.Demo/CloudWeb.Demo.csproj -c Release -o publish
 
-      - name: Prepare GitHub Pages assets
+      - name: Render static pages for GitHub Pages
         shell: bash
         run: |
-          mkdir -p publish/wwwroot
+          mkdir -p site
+          cp -R publish/wwwroot/. site/
 
-          if [[ ! -f publish/wwwroot/index.html ]]; then
-            cat > publish/wwwroot/index.html <<'EOF'
-          <!doctype html>
-          <html lang="en">
-          <head>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <title>CloudWeb Demo</title>
-          </head>
-          <body>
-            <h1>CloudWeb Demo</h1>
-            <p>This demo requires an ASP.NET Core server host and cannot run directly on GitHub Pages.</p>
-          </body>
-          </html>
-          EOF
-          fi
+          dotnet publish/CloudWeb.Demo.dll --urls http://127.0.0.1:5079 &
+          APP_PID=$!
 
-          cp publish/wwwroot/index.html publish/wwwroot/404.html
+          for i in {1..30}; do
+            if curl -sf http://127.0.0.1:5079/ > /dev/null; then
+              break
+            fi
+            sleep 1
+          done
 
-          cat > /tmp/gh-pages-index-snippet.html <<'EOF'
-          <script>
-            (function(l) {
-              if (l.search[1] === '/') {
-                var decoded = l.search.slice(1).split('&').map(function(s) {
-                  return s.replace(/~and~/g, '&')
-                }).join('?');
-                window.history.replaceState(null, null,
-                  l.pathname.slice(0, -1) + decoded + l.hash
-                );
-              }
-            }(window.location))
-          </script>
-          EOF
+          declare -a ROUTES=("" "metadata" "bundles" "features" "robots" "crawler")
 
-          cat > /tmp/gh-pages-404-snippet.html <<'EOF'
-          <script>
-            var pathSegmentsToKeep = 1;
-            var l = window.location;
-            l.replace(
-              l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-              l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-              l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
-              (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-              l.hash
-            );
-          </script>
-          EOF
+          for route in "${ROUTES[@]}"; do
+            if [ -z "$route" ]; then
+              out="site/index.html"
+              url="http://127.0.0.1:5079/"
+            else
+              mkdir -p "site/$route"
+              out="site/$route/index.html"
+              url="http://127.0.0.1:5079/$route"
+            fi
 
-          python3 <<'PY'
-          from pathlib import Path
+            curl -sf "$url" -o "$out"
 
-          index_path = Path('publish/wwwroot/index.html')
-          not_found_path = Path('publish/wwwroot/404.html')
-          index_snippet = Path('/tmp/gh-pages-index-snippet.html').read_text()
-          not_found_snippet = Path('/tmp/gh-pages-404-snippet.html').read_text()
+            sed -i 's|<base href="/" />|<base href="/CloudWeb/" />|g' "$out"
+            sed -i '/_framework\/blazor\.web\.js/d' "$out"
+          done
 
-          def update_html(path: Path, snippet: str) -> None:
-              content = path.read_text()
-              content = content.replace('<head>', f'<head>\n{snippet}', 1)
-              path.write_text(content)
+          cp site/index.html site/404.html
 
-          update_html(index_path, index_snippet)
-          update_html(not_found_path, not_found_snippet)
-          PY
+          kill $APP_PID
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: publish/wwwroot
+          path: site
 
   deploy:
     runs-on: ubuntu-latest

@@ -7,10 +7,10 @@
 		<Nullable>enable</Nullable>
 		<Authors>Angry Monkey</Authors>
 		<Company>Angry Monkey</Company>
-		<Version>2.4.3</Version>
+		<Version>2.4.4</Version>
 		<AssemblyVersion>$(PackageVersion)</AssemblyVersion>
 		<FileVersion>$(PackageVersion)</FileVersion>
-		<PackageIcon>AngryMonkeyCloudLogo-64x64.png</PackageIcon>
+		<PackageIcon>amc-logo.png</PackageIcon>
 		<UserSecretsId>f72da9d0-03f0-493e-83a6-d3b89db06438</UserSecretsId>
 	</PropertyGroup>
 

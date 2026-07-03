@@ -1,7 +1,7 @@
 ﻿# CloudWeb
 
 <p align="center">
-  <img src="CloudWeb/AngryMonkeyCloudLogo-64x64.png" alt="Angry Monkey Cloud Logo" width="64" />
+  <img src="CloudWeb/amc-logo.png" alt="Angry Monkey Cloud Logo" width="64" />
 </p>
 
 <p align="center">
