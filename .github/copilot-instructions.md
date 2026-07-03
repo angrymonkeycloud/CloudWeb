@@ -74,3 +74,8 @@ Add new features here and add the corresponding CDN block in `CloudBundles.razor
 - Omit braces for single-statement `if`/`for`/`foreach` bodies.
 - Name enums in plural form (e.g., `CloudPageFeatures`).
 - Never author `.css` directly — author `.less` files; the build compiles them. Razor isolated styles use `.razor.less` → `.razor.css`.
+
+## Public Usage and Demo Links
+
+- Focus on README content that highlights public usage and provides demo links.
+- Omit internal NuGet packing/publishing instructions to streamline user experience.
