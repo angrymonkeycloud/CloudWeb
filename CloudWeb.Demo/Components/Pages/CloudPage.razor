@@ -1,0 +1,103 @@
+@page "/cloudpage"
+@inject CloudPage CloudPage
+
+@code {
+    protected override void OnInitialized()
+    {
+        CloudPage
+            .SetTitle("CloudPage")
+            .SetDescription("CloudPage is the central scoped service for per-page head configuration in CloudWeb. Learn how to use it to set metadata, append bundles, enable CDN features, and control robots directives.");
+    }
+}
+
+<div class="page-header">
+    <h1>CloudPage</h1>
+    <p class="lead"><code>CloudPage</code> is the scoped service that acts as the single entry point for all per-page <code>&lt;head&gt;</code> configuration in CloudWeb.</p>
+</div>
+
+<section class="section">
+    <h2>What Is CloudPage?</h2>
+    <p>Every request gets its own <code>CloudPage</code> instance (registered as a scoped service). It holds the current page's metadata, asset bundles, CDN feature flags, robots directives, and favicon. At render time, <code>CloudHeadInit</code> merges the page values with the app-wide defaults from <code>CloudWebConfig.PageDefaults</code> and writes all managed tags into the <code>&lt;head&gt;</code>.</p>
+    <p>Whenever a property changes, <code>CloudPage</code> fires its <code>OnModified</code> event. <code>CloudHeadInit.razor</code> subscribes to this event and calls <code>StateHasChanged()</code>, which keeps the rendered head in sync with interactive Blazor components that update the page after the initial render.</p>
+</section>
+
+<section class="section">
+    <h2>Usage</h2>
+    <p>Inject <code>CloudPage</code> into any Blazor component and configure it in <code>OnInitialized</code> using the fluent API.</p>
+    <pre><code>@("@inject CloudPage CloudPage")
+
+@("@code {")
+    protected override void OnInitialized()
+    {
+        CloudPage
+            .SetTitle("My Page")
+            .SetDescription("A short description for search engines.")
+            .SetKeywords("blazor, cloudweb, seo")
+            .SetFavicon("/favicon.svg")
+            .AppendBundle("~/css/page.css")
+            .AppendBundle("~/js/page.js")
+            .AddFeature(CloudPageFeatures.JQuery)
+            .SetRobots("index, follow");
+    }
+}</code></pre>
+    <p>All setter methods return <code>this</code>, so calls can be chained in any order.</p>
+</section>
+
+<section class="section">
+    <h2>Responsibilities</h2>
+    <table class="api-table">
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Methods</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Metadata</td>
+                <td><code>SetTitle</code>, <code>SetDescription</code>, <code>SetKeywords</code></td>
+                <td>Controls <code>&lt;title&gt;</code>, <code>description</code>, and <code>keywords</code> meta tags.</td>
+            </tr>
+            <tr>
+                <td>Favicon</td>
+                <td><code>SetFavicon</code></td>
+                <td>Sets the <code>&lt;link rel="icon"&gt;</code> href for the page.</td>
+            </tr>
+            <tr>
+                <td>Asset Bundles</td>
+                <td><code>AppendBundle</code></td>
+                <td>Adds per-page CSS or JavaScript files, merged with global defaults at render time.</td>
+            </tr>
+            <tr>
+                <td>CDN Features</td>
+                <td><code>AddFeature</code>, <code>AddFeatures</code></td>
+                <td>Enables on-demand CDN dependencies such as Azure Maps, TinyMCE, or jQuery.</td>
+            </tr>
+            <tr>
+                <td>Robots</td>
+                <td><code>SetRobots</code></td>
+                <td>Sets the <code>robots</code> meta tag (<code>index/noindex</code>, <code>follow/nofollow</code>).</td>
+            </tr>
+            <tr>
+                <td>Reactive updates</td>
+                <td><code>OnModified</code></td>
+                <td>Event fired after every change. <code>CloudHeadInit</code> subscribes and triggers a re-render automatically.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="section">
+    <h2>Global Defaults</h2>
+    <p>App-wide defaults are set once during registration via <code>config.PageDefaults</code>. Page-level values always take precedence over defaults.</p>
+    <pre><code>builder.Services.AddCloudWeb(config =>
+{
+    config.TitleSuffix = " - My App";
+
+    config.PageDefaults
+        .SetFavicon("/favicon.svg")
+        .SetDescription("Default description for all pages.")
+        .SetKeywords("default, keywords");
+});</code></pre>
+</section>
