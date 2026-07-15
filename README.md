@@ -30,10 +30,12 @@ https://angrymonkeycloud.github.io/CloudWeb/
 
 - Fluent per-page metadata (`title`, `description`, `keywords`, `favicon`)
 - Global defaults through `CloudWebConfig` with per-page overrides
-- Robots directives (`noindex`, `nofollow`) and staging protection
-- CSS/JS bundle injection with minified path and versioning support
-- Built-in CDN features (`Maps`, `TextEditor`, `JQuery`)
-- Crawler detection using a comprehensive user-agent list
+- Title prefix/suffix, add-ons, and automatic 64-character length limiting
+- Description auto-truncation at 160 characters
+- Robots directives (`noindex`, `nofollow`) and automatic staging protection
+- CSS/JS bundle injection with minified path insertion and cache-busting versioning
+- Built-in CDN features (`Maps`, `TextEditor`, `JQuery`) and a legacy exports shim
+- Crawler detection using an extensive built-in user-agent list
 - Native support for both Blazor and MVC
 
 ## Installation
@@ -44,7 +46,7 @@ dotnet add package AngryMonkey.CloudWeb
 
 ## Quick Start
 
-### Register the library
+### 1. Register the library
 
 ```csharp
 builder.Services.AddCloudWeb(config =>
@@ -59,9 +61,9 @@ builder.Services.AddCloudWeb(config =>
 });
 ```
 
-### Blazor integration
+### 2. Blazor integration
 
-`App.razor`:
+`App.razor` — add a `SectionPlaceholder` inside `<head>`:
 
 ```razor
 <head>
@@ -69,13 +71,13 @@ builder.Services.AddCloudWeb(config =>
 </head>
 ```
 
-`Routes.razor`:
+`Routes.razor` — render the managed head content:
 
 ```razor
 <CloudHeadContent />
 ```
 
-Page/component usage:
+Per-page usage:
 
 ```razor
 @inject CloudPage CloudPage
@@ -91,9 +93,9 @@ Page/component usage:
 }
 ```
 
-### MVC integration
+### 3. MVC integration
 
-Controller:
+Inherit from `CloudController` and call `CloudPage()` in each action:
 
 ```csharp
 public class HomeController(CloudPage cloudPage) : CloudController(cloudPage)
@@ -106,7 +108,7 @@ public class HomeController(CloudPage cloudPage) : CloudController(cloudPage)
 }
 ```
 
-Layout (`_Layout.cshtml`):
+Layout (`_Layout.cshtml`) — render the head component:
 
 ```html
 <head>
@@ -114,39 +116,305 @@ Layout (`_Layout.cshtml`):
 </head>
 ```
 
-## API Highlights
+---
 
-### CloudPage
+## Page Metadata
 
-- `SetTitle(string)`
-- `SetDescription(string)`
-- `SetKeywords(string)`
-- `SetFavicon(string)`
-- `SetIndexPage(bool)` / `SetFollowPage(bool)`
-- `SetTitleAddOns(IEnumerable<string>)`
-- `SetAddLegacyExportsCreation(bool)`
-- `AppendBundle(string)` / `AppendBundle(CloudBundle)`
-- `AppendBundles(params string[])`
-- `InsertBundle(int, CloudBundle)`
-- `AddFeature(CloudPageFeatures)` / `AddFeatures(params CloudPageFeatures[])`
+`CloudPage` exposes a fluent API for setting all `<head>` metadata. All methods return `this` and fire the `OnModified` event, which triggers a Blazor `StateHasChanged()`.
 
-### CloudBundle Options
+```razor
+@inject CloudPage CloudPage
+
+@code {
+    protected override void OnInitialized()
+    {
+        CloudPage
+            .SetTitle("Contact")
+            .SetDescription("Get in touch with us.")
+            .SetKeywords("contact, support")
+            .SetFavicon("/icons/contact.svg");
+    }
+}
+```
+
+### Title
+
+`SetTitle(string)` sets the page title. `CloudWebConfig.TitlePrefix` and `TitleSuffix` are automatically prepended/appended:
+
+```csharp
+// Config: TitleSuffix = " - My App"
+CloudPage.SetTitle("About");
+// Renders: <title>About - My App</title>
+```
+
+When no title is set on the page, the global `PageDefaults.Title` is used instead (without prefix/suffix).
+
+#### Title add-ons
+
+Additional tokens can be appended to the title. The combined title is limited to **64 characters** — tokens that would exceed the limit are silently dropped:
+
+```csharp
+CloudPage.SetTitleAddOns(["Page 3", "Category A"]);
+```
+
+### Description
+
+`SetDescription(string)` sets the `<meta name="description">` tag. Descriptions longer than **160 characters** are automatically truncated with `...`.
+
+### Keywords
+
+`SetKeywords(string)` sets the `<meta name="keywords">` tag.
+
+### Favicon
+
+`SetFavicon(string)` sets the `<link rel="icon">` href. Overrides the global default when provided.
+
+### Global defaults
+
+Per-page values override the global defaults using null-coalescing — if a page explicitly sets a value it wins; otherwise the global default from `PageDefaults` applies.
+
+```csharp
+builder.Services.AddCloudWeb(config =>
+{
+    config.TitlePrefix = "";
+    config.TitleSuffix = " - My App";
+
+    config.PageDefaults
+        .SetFavicon("/favicon.svg")
+        .SetDescription("Site-wide default description.")
+        .SetKeywords("default, keywords");
+});
+```
+
+### Metadata API reference
+
+| Method | Description |
+|---|---|
+| `SetTitle(string)` | Sets the page title. Prefix/suffix are applied automatically. |
+| `SetDescription(string)` | Sets the meta description. Values over 160 characters are truncated with an ellipsis. |
+| `SetKeywords(string)` | Sets the meta keywords tag. |
+| `SetFavicon(string)` | Sets the favicon href. Overrides the global default when provided. |
+| `SetTitleAddOns(IEnumerable<string>)` | Appends additional tokens to the title, respecting the 64-character limit. |
+
+---
+
+## Asset Bundles
+
+CloudWeb manages CSS and JavaScript file injection into the `<head>`. Global bundles (from `PageDefaults`) are rendered before per-page bundles.
+
+### Appending bundles
+
+```csharp
+// Simple string overload
+CloudPage.AppendBundle("~/css/theme.css");
+CloudPage.AppendBundle("~/js/app.js");
+
+// Multiple at once
+CloudPage.AppendBundles("~/css/a.css", "~/js/b.js");
+
+// Full options
+CloudPage.AppendBundle(new CloudBundle
+{
+    Source        = "~/js/analytics.js",
+    MinOnRelease  = true,   // inserts .min. before the extension in non-Development environments
+    AppendVersion = true,   // appends ?v= cache-busting query string
+    Defer         = true,   // adds defer attribute to script tags
+    Async         = false,
+    UseMapping    = true,   // resolve path through the static asset manifest
+    AddOns        = null,   // freeform attribute string appended verbatim to the tag
+});
+```
+
+### Inserting bundles at a specific position
+
+```csharp
+CloudPage.InsertBundle(0, new CloudBundle { Source = "~/css/critical.css" });
+```
+
+### Bundle options
 
 | Property | Default | Description |
 |---|---|---|
-| `Source` | required | Asset path or URL |
-| `MinOnRelease` | `true` | Inserts `.min.` before extension |
-| `AppendVersion` | `true` | Adds cache-busting query string |
-| `UseMapping` | `true` | Uses static web assets mapping |
-| `Defer` | `true` | Adds `defer` to JavaScript tags |
-| `Async` | `false` | Adds `async` to JavaScript tags |
-| `AddOns` | `null` | Extra tag attributes |
+| `Source` | required | Relative (`~/`) or absolute (`http`) URL of the asset. |
+| `MinOnRelease` | `true` | Inserts `.min.` before the file extension in non-Development environments. |
+| `AppendVersion` | `true` | Appends a content-based `?v=` query string for cache busting. |
+| `UseMapping` | `true` | Resolves the path through the static asset manifest; falls back to `IFileVersionProvider` when `false`. |
+| `Defer` | `true` | Adds the `defer` attribute to `<script>` tags. |
+| `Async` | `false` | Adds the `async` attribute to `<script>` tags. |
+| `AddOns` | `null` | Freeform attribute string appended verbatim to the rendered tag. |
 
-### CloudPageFeatures
+### Global bundles
 
-- `Maps` (Azure Maps SDK)
-- `TextEditor` (TinyMCE)
-- `JQuery` (jQuery 3.6.4)
+Bundles added to `config.PageDefaults` are injected on every page before any per-page bundles:
+
+```csharp
+builder.Services.AddCloudWeb(config =>
+{
+    config.PageDefaults
+        .AppendBundle("~/css/site.css")
+        .AppendBundle("~/js/site.js");
+});
+```
+
+### MVC / Razor views
+
+In MVC, use the `@Html.Bundle()` HTML helper extension in views:
+
+```csharp
+// Controller
+public class HomeController(CloudPage cloudPage) : CloudController(cloudPage)
+{
+    public IActionResult Index()
+    {
+        CloudPage("Home Page");
+        return View();
+    }
+}
+```
+
+```html
+<!-- View or _Layout.cshtml -->
+@Html.Bundle("~/css/site.css")
+```
+
+---
+
+## CDN Features
+
+Add a `CloudPageFeatures` flag to `CloudPage` and the corresponding CDN dependency is injected automatically into the page `<head>`. Multiple features can be added in a single call.
+
+```csharp
+CloudPage.AddFeature(CloudPageFeatures.Maps);
+CloudPage.AddFeature(CloudPageFeatures.JQuery);
+
+// Or multiple at once:
+CloudPage.AddFeatures(CloudPageFeatures.Maps, CloudPageFeatures.JQuery);
+```
+
+### Available features
+
+| Feature | CDN dependency injected |
+|---|---|
+| `CloudPageFeatures.Maps` | Azure Maps SDK v2 — `atlas.min.css` + `atlas.min.js` |
+| `CloudPageFeatures.TextEditor` | TinyMCE 5 — `tinymce.min.js` |
+| `CloudPageFeatures.JQuery` | jQuery 3.6.4 — `jquery-3.6.4.min.js` |
+
+### Legacy exports shim
+
+Some older CommonJS modules expect a global `exports` object. Enable the compatibility shim with:
+
+```csharp
+CloudPage.SetAddLegacyExportsCreation(true);
+```
+
+This injects `<script>var exports = {};</script>` before all bundles on that page.
+
+---
+
+## Robots Control
+
+Control search engine indexing and link-following on a per-page basis. When both are `true` (the default), no robots tag is emitted.
+
+```csharp
+// Prevent indexing on this page
+CloudPage.SetIndexPage(false);
+
+// Prevent following links on this page
+CloudPage.SetFollowPage(false);
+
+// Explicitly allow both (identical to the default)
+CloudPage
+    .SetIndexPage(true)
+    .SetFollowPage(true);
+```
+
+### Rendered output
+
+| `IndexPage` | `FollowPage` | Meta tag output |
+|---|---|---|
+| `true` | `true` | *(no robots tag emitted)* |
+| `false` | `true` | `<meta name="robots" content="noindex">` |
+| `true` | `false` | `<meta name="robots" content="nofollow">` |
+| `false` | `false` | `<meta name="robots" content="noindex, nofollow">` |
+
+### Automatic staging protection
+
+Any request arriving from a host ending in `azurewebsites.net` automatically receives `noindex, nofollow`, regardless of per-page settings. This prevents staging or preview deployments from being indexed by search engines. The same logic applies in the MVC `CloudController` base class, ensuring consistent behaviour across Blazor and MVC applications.
+
+### Global defaults
+
+```csharp
+builder.Services.AddCloudWeb(config =>
+{
+    config.PageDefaults
+        .SetIndexPage(true)
+        .SetFollowPage(true);
+});
+```
+
+---
+
+## Crawler Detection
+
+`CloudPage` detects search engine crawlers on construction by matching the request `User-Agent` header against an extensive built-in list (`CloudWebConfig.CrawlersUserAgents`). The `IsCrawler` property is set to `true` if any substring matches.
+
+### Blazor usage
+
+```razor
+@inject CloudPage CloudPage
+
+@if (CloudPage.IsCrawler)
+{
+    // Serve a simplified, text-only response for crawlers
+}
+else
+{
+    // Serve the full interactive experience
+}
+```
+
+### MVC usage
+
+Use the `IsCrawler()` helper method on `CloudController`:
+
+```csharp
+public class HomeController(CloudPage cloudPage) : CloudController(cloudPage)
+{
+    public IActionResult Index()
+    {
+        if (IsCrawler())
+            return View("IndexSimple");
+
+        return View();
+    }
+}
+```
+
+### Detection coverage
+
+The built-in list covers hundreds of user-agent substrings including:
+
+| Category | Examples |
+|---|---|
+| Search engines | Googlebot, Bingbot, YandexBot, Baiduspider |
+| Generic patterns | `bot`, `crawler`, `spider` |
+| Download tools | `wget`, `curl` |
+| SEO / auditing tools | AhrefsBot, BLEXBot, SemrushBot |
+
+---
+
+## Configuration Reference
+
+All configuration is passed to `AddCloudWeb` via `CloudWebConfig`:
+
+| Property | Type | Description |
+|---|---|---|
+| `TitlePrefix` | `string` | String prepended to every page title (applied when a per-page title is set). |
+| `TitleSuffix` | `string` | String appended to every page title (applied when a per-page title is set). |
+| `StaticFilesBaseDirectory` | `string?` | Base directory prefix stripped/prepended when resolving asset paths with `IFileVersionProvider`. |
+| `PageDefaults` | `CloudPage` | Default metadata, bundles, features, and robots settings applied to every page. |
+
+---
 
 ## Repository Structure
 
@@ -154,7 +422,25 @@ Layout (`_Layout.cshtml`):
 CloudWeb/
 ├── CloudWeb/          # Razor Class Library (NuGet package)
 ├── CloudWeb.Demo/     # Blazor demo application
+├── CloudWeb.Nuget/    # Console app that packs and publishes the NuGet package via CloudPack
 └── CloudWeb.Tests/    # xUnit test project
+```
+
+## Publishing a New Version
+
+`CloudWeb.Nuget` uses [`AngryMonkey.CloudMate`](https://www.nuget.org/packages/AngryMonkey.CloudMate) (`CloudPack`) to pack and push the `CloudWeb` library to NuGet.
+
+1. Bump `<Version>` in `CloudWeb/CloudWeb.csproj`.
+2. Store your NuGet API key in user secrets for `CloudWeb.Nuget`:
+
+```bash
+dotnet user-secrets --project CloudWeb.Nuget set "NuGetApiKey" "<your-key>"
+```
+
+3. Run `CloudWeb.Nuget` to pack and publish — the `.nupkg` is also saved to `NugetPackages/`:
+
+```bash
+dotnet run --project CloudWeb.Nuget/CloudWeb.Nuget.csproj
 ```
 
 ## Local Development
