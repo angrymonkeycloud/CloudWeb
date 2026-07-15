@@ -1,26 +1,12 @@
 ﻿# CloudWeb
 
-<p align="center">
-  <img src="CloudWeb/amc-logo.png" alt="Angry Monkey Cloud Logo" width="64" />
-</p>
+[![Website](https://img.shields.io/badge/Website-angrymonkeycloud.com-0B5FFF?style=flat-square&logo=googlechrome&logoColor=white)](https://angrymonkeycloud.com/cloudweb)
+[![GitHub repository](https://img.shields.io/badge/GitHub-CloudWeb-181717?style=flat-square&logo=github)](https://github.com/angrymonkeycloud/CloudWeb)
+[![NuGet](https://img.shields.io/nuget/v/AngryMonkey.CloudWeb?style=flat-square&logo=nuget&label=NuGet)](https://www.nuget.org/packages/AngryMonkey.CloudWeb)
+[![NuGet downloads](https://img.shields.io/nuget/dt/AngryMonkey.CloudWeb?style=flat-square&logo=nuget&label=Downloads)](https://www.nuget.org/packages/AngryMonkey.CloudWeb)
+[![.NET](https://img.shields.io/badge/.NET-10-512BD4?style=flat-square&logo=dotnet&logoColor=white)](https://dotnet.microsoft.com/)
 
-<p align="center">
-  <a href="https://www.nuget.org/packages/AngryMonkey.CloudWeb">
-    <img src="https://img.shields.io/nuget/v/AngryMonkey.CloudWeb?style=flat-square&logo=nuget&label=NuGet" alt="NuGet Version" />
-  </a>
-  <a href="https://www.nuget.org/packages/AngryMonkey.CloudWeb">
-    <img src="https://img.shields.io/nuget/dt/AngryMonkey.CloudWeb?style=flat-square&logo=nuget&label=Downloads" alt="NuGet Downloads" />
-  </a>
-  <a href="https://github.com/angrymonkeycloud/CloudWeb/actions/workflows/dotnet.yml">
-    <img src="https://img.shields.io/github/actions/workflow/status/angrymonkeycloud/CloudWeb/dotnet.yml?branch=main&style=flat-square&logo=github&label=Build" alt="Build Status" />
-  </a>
-  <a href="https://github.com/angrymonkeycloud/CloudWeb/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/angrymonkeycloud/CloudWeb?style=flat-square&label=License" alt="License" />
-  </a>
-  <img src="https://img.shields.io/badge/.NET-10-512BD4?style=flat-square&logo=dotnet" alt=".NET 10" />
-</p>
-
-CloudWeb is an ASP.NET Core library for managing page `<head>` content and static asset bundles for Blazor and MVC applications.
+CloudWeb is an ASP.NET Core library for managing page metadata and static asset bundles in Blazor and MVC applications.
 
 ## Demo
 
@@ -460,3 +446,7 @@ dotnet run --project CloudWeb.Demo/CloudWeb.Demo.csproj
 ## License
 
 [MIT](LICENSE) © [Angry Monkey Cloud](https://www.angrymonkeycloud.com/)
+
+## Angry Monkey Cloud
+
+This project follows the shared [AI development instructions](https://github.com/angrymonkeycloud/CloudDocs/blob/main/docs/ai/instructions.md).
